@@ -11,7 +11,7 @@ ls /usr/share/slimbookrgbkeyboard
 
 rm /usr/share/slimbookrgbkeyboard/*.txt
 
-which clevo-xsm-wmi
+ls /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko
 
 if [ $? -eq 0 ]; then
 

@@ -1,3 +1,10 @@
+slimbookrgbkeyboard (0.3.2) focal; urgency=medium
+
+  * Upgrade fail
+  * Clevo fail (added comprobations)
+
+ -- slimbook <dev@slimbook.es>  Fri, 25 May 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.1) focal; urgency=medium
 
   * Upgrade fail

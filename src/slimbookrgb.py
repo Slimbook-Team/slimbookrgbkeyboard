@@ -46,11 +46,31 @@ class SlimbookRGB(Gtk.Window):
 
     def __init__(self):
   
-        #COMPROBATIONS
+        #COMPROBATION
+
+        
+
         call = subprocess.getstatusoutput('ls /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko')   
                    
+        """ if os.system("python3 "+currpath+"/custom_conf.sh") == 0:
+            print ("ok") """
+
+        
         if call[0] == 0:
             print('Module detected!')
+            try:
+                self.get_value("last_color")
+
+            except:
+                print("Rewriting .conf (adding last_color)")
+                #REQUIRES SUDO
+                """ with open('/etc/modprobe.d/clevo-xsm-wmi.conf', 'w') as file:
+                    file.write('options clevo-xsm-wmi kb_color=white,white,white, kb_brightness=10')
+                """
+                with open('/etc/modprobe.d/clevo-xsm-wmi.conf', 'a') as file:
+                    file.write('\n#last_color=white\n')
+
+
         else:      
 
             #Instalar directamente --> os.system("python3 "+currpath+"/install_window.py")

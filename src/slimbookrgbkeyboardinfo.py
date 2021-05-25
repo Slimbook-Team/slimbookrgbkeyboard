@@ -81,14 +81,14 @@ class PreferencesDialog(Gtk.Dialog):
 
 
         info = Gtk.Label()
-        info.set_markup("<span>Slimbook RGB Keyboard is an application to customize your keyboard's baklight, which allows you to modify brightness intensity, or change backlight color.\nThanks to pobrn.</span>")
+        info.set_markup("<span>The Slimbook RGB Keyboard app enables full customization of your built-in keyboard backlight color, brightness and visual effects.\n\nThanks to pobrn.</span>")
         info.set_name('info')
         info.set_line_wrap(True)
         
          # Hya que meter el link de patreon.com/slimbook
 
         info2 = Gtk.Label()
-        info2.set_markup("<span>If you want, you can help finance developement of this and other applications through <b><a href='https://patreon.com/slimbook'>patreon</a></b> or considering buying a slimbook.</span>")
+        info2.set_markup("<span>If you want to support the Slimbook team with the development of this app and several more to come, you can do so by joining our <b><a href='https://patreon.com/slimbook'>patreon</a></b> or buying a brand new Slimbook.</span>")
         info2.set_name('info')
         info2.set_line_wrap(True)
 
