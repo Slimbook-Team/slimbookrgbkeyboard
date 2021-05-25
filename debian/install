@@ -1,0 +1,6 @@
+src /usr/share/slimbookrgbkeyboard
+slimbookrgbkeyboard.desktop /usr/share/slimbookrgbkeyboard
+bin/* /usr/bin
+slimbookrgbkeyboard.desktop /usr/share/applications
+policykit/* /usr/share/polkit-1/actions/
+post-suspension/* /usr/lib/systemd/system-sleep/

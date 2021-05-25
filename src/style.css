@@ -1,0 +1,118 @@
+window, dialog{
+    background-image: linear-gradient(270deg, black, rgb(36, 36, 36));
+}
+
+/* window>box{
+    background-image: linear-gradient(270deg, black, rgb(36, 36, 36));
+
+} */
+
+window>box>:first-child{
+    background-color: black;
+}
+
+grid{
+    padding: 30px;
+}
+
+scale{
+    color: white;
+}
+
+stackswitcher{
+    color: black;
+    padding-left: 30px;
+}
+
+stackswitcher label{
+    color: black;
+}
+
+stackswitcher button{
+    margin-top: 10px;
+    border-radius: 0;
+}
+
+button{
+    border-radius: 10px;
+}
+
+label{
+    font-size: 18px;
+    color: white;
+}
+
+#info {
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+#negro{
+    color: black;
+}
+
+#labelw, dialog label{
+    color: white;
+}
+
+.logo{
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#terminal{
+    background-color: rgb(44, 0, 44);
+    padding: 10px;
+}
+
+#cmd_label{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#red{
+    background: red;
+}
+
+#magenta{
+    background: magenta;
+    
+}
+
+#white{
+    background: white;
+}
+
+#blue{
+    background: blue;
+}
+
+#green{
+    background: rgb(9, 168, 9);
+}
+
+#yellow{
+    background: yellow;
+}
+
+#black{
+    background: black;
+}
+
+#orange{
+    background: orange;
+}
+
+#purple{
+    background: purple;
+}
+
+#teal{
+    background: teal;
+}
+
+#aqua{
+    background: aqua;
+}
+

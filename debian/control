@@ -1,0 +1,33 @@
+Source: slimbookrgbkeyboard
+Section: utils
+Priority: optional
+Maintainer: slimbook <dev@slimbook.es>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 4.4.1
+Homepage: http://slimbook.es
+ 
+Package: slimbookrgbkeyboard
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends},
+    python3,
+    python3-all,
+    python3-gi,
+    python3-pil,
+    python3-pip,
+    python3-dbus,
+    git,
+    build-essential,
+    cmake,
+    cmake-data,
+    pciutils,
+    libcurl4,
+    libjsoncpp1,
+    libudev-dev,
+    libudev1,
+    libpci-dev,
+    libpci3,
+    librhash0,
+    udev,
+    zlib1g-dev
+Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
+ Description: Slimbook RGB, gestiona el color y brillo de tu teclado.

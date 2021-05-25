@@ -1,0 +1,25 @@
+slimbookrgbkeyboard (0.3.1) focal; urgency=medium
+
+  * Upgrade fail
+  * Added prerm
+
+ -- slimbook <dev@slimbook.es>  Fri, 21 May 2021 13:54:22 +0200
+ 
+slimbookrgbkeyboard (0.3) focal; urgency=medium
+
+  * Config bug!
+
+ -- slimbook <dev@slimbook.es>  Fri, 21 May 2021 13:54:22 +0200
+
+slimbookrgbkeyboard (0.2) focal; urgency=medium
+
+  * Added light bar options!
+
+ -- slimbook <dev@slimbook.es>  Thu, 20 May 2021 13:54:22 +0200
+
+slimbookrgbkeyboard (0.1-1) focal; urgency=medium
+
+  * Initial Release.
+  * This is my first Debian package.
+
+ -- slimbook <dev@slimbook.es>  Mon, 17 May 2021 13:54:22 +0200

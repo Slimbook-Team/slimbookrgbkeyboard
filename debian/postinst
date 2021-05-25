@@ -1,0 +1,52 @@
+#!/bin/sh
+# postinst script for slimbookrgbkeyboard
+#
+# see: dh_installdeb(1)
+
+set -x
+
+echo "Running postinst..."
+
+ls /usr/share/slimbookrgbkeyboard
+
+sudo rm /home/*/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf
+
+ls /usr/local/bin | grep ite8291r3-ctl
+
+
+if [ $? -ne 0 ]; then #IF Ite not installed
+    echo "trying to install ite8291r3_driver"
+    pip3 install ite8291r3-ctl
+    if [ $? -eq 0 ];then
+        echo "ite8291r3_driver installed!"
+    else
+        echo "ite8291r3_driver not installed, error"
+    fi
+
+fi
+
+/usr/local/bin/ite8291r3-ctl query --devices
+
+if [ $? -eq 0 ]; then #IF device able
+        echo "ite8291r3_driver --> ABLE"
+
+        echo "ite8291r3_driver --> ABLE" > /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt
+
+        chmod +x /usr/lib/systemd/system-sleep/slimbookrgbkeyboard
+
+        #Installs light bar driver
+        cd /usr/share/slimbookrgbkeyboard
+        git clone https://github.com/pobrn/qc71_laptop
+        cd qc71_laptop
+        sudo make dkmsinstall
+        sudo modprobe qc71_laptop
+
+else
+    echo "clevo-xwmi --> TRY ABLE"
+    #This one throws clevo-xwmi install when app launched
+    echo "clevo-xwmi --> TRY ABLE" > /usr/share/slimbookrgbkeyboard/clevo_module.txt
+
+fi
+
+#DEBHELPER#
+exit 0
