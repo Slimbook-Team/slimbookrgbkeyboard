@@ -1,3 +1,10 @@
+slimbookrgbkeyboard (0.3.3) focal; urgency=medium
+
+  * Name issue solved
+  * Program animation reading automated
+
+ -- slimbook <dev@slimbook.es>  Mon, 14 Jun 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.2) focal; urgency=medium
 
   * Upgrade fail

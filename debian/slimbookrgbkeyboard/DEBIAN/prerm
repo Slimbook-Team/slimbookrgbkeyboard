@@ -1,0 +1,37 @@
+#!/bin/sh
+# prerm script for slimbookrgbkeyboard
+#
+# see: dh_installdeb(1)
+
+set -x
+
+echo "Running prerm..."
+
+ls /usr/share/slimbookrgbkeyboard
+
+rm /usr/share/slimbookrgbkeyboard/*.txt
+
+ls /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko
+
+if [ $? -eq 0 ]; then
+
+    rmmod clevo-xsm-wmi
+
+    rm -r /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko  
+
+else
+
+    echo "Uninstalling ite8291r3-ctl"
+    pip3 uninstall ite8291r3-ctl -y
+
+    echo "Uninstalling qc71_laptop"
+    cd /usr/share/slimbookrgbkeyboard/qc71_laptop
+    make dkmsuninstall
+    cd ..
+    rm -r qc71_laptop
+    
+fi
+
+
+
+exit 0
