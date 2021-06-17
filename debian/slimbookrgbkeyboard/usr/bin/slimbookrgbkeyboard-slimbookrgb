@@ -1,3 +1,0 @@
-#!/bin/bash
-c_user=$(whoami)
-pkexec /usr/bin/slimbookrgbkeyboard-slimbookrgb-pkexec $1
