@@ -52,6 +52,10 @@ label{
     color: white;
 }
 
+#close_button{
+    margin-bottom: 20px;
+}
+
 #info {
     padding-right: 20px;
     padding-bottom: 20px;

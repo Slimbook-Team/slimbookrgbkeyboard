@@ -4,33 +4,19 @@ exec >> /tmp/slimbookrgbkeyboard_err.txt
 date >&2
 printf "$0 argument: %s\n" "$@" >&2
 
-user="$(last | head -n 1 | cut -f 1 -d " " )"
+set -x
 
-cmd="pkexec slimbookrgbkeyboard-applyconfig-pkexec"
+cmd="pkexec slimbookrgbkeyboard-applyconfig-pkexec $@"
 
 cmd2="which slimbookrgbkeyboard"
 
-check_conf="cat /home/$user/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf"
-
-set_signal='sed -i "s/suspension.*/suspension = $1/g" /home/$user/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf'
-
-
 if $cmd2; then
   echo "The program exists"
-  echo "User:"$user
-  
-  if $check_conf; then
-    sed -i "s/suspension.*/suspension = $1/g" /home/$user/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf
-    echo "Apliying changes"
-    $check_conf
     if $cmd ; then
       echo "Done!"
     else 
       echo "Failed to execute command"
     fi
-  else 
-    echo ".config doesn't exist."
-  fi
 else
    echo "The program doesn’t exist"
 

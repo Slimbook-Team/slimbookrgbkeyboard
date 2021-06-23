@@ -1,3 +1,8 @@
+slimbookrgbkeyboard (0.3.4) focal; urgency=medium
+
+  * Suspension issue solved
+
+ -- slimbook <dev@slimbook.es>  Wed, 23 Jun 2021 11:54:22 +0200
 slimbookrgbkeyboard (0.3.3) focal; urgency=medium
 
   * Name issue solved
