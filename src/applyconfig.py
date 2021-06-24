@@ -5,6 +5,8 @@
 import os
 import sys
 import subprocess
+import configparser
+
 from configparser import ConfigParser
 
 USER_NAME = subprocess.getoutput('last -wn1 | head -n 1 | cut -f 1 -d " "')
@@ -23,7 +25,7 @@ config.read(config_file)
 os.system("cat "+config_file)
 
 def main(args):
-
+    check_config()
     #print("Total Args --> "+ str(len(args)) +" --> arg[0] = "+args[0])
     print(str(args))
     # Argument 0 is the current route
@@ -127,7 +129,54 @@ def main(args):
                     
                 else:
                     os.system("echo 0 > /sys/class/leds/qc71_laptop\:\:lightbar/brightness")  #Turn off light bar 
-               
+    
+def check_config():
+    
+    if os.path.isfile(HOMEDIR+'/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf'):
+        print('File .conf already exists\n')           
+    else:
+        print ("File doesn't exist")
+
+        if os.path.exists (HOMEDIR+'/.config/slimbookrgbkeyboard'):
+            print('Directory already exists')
+            os.system('sudo -u '+USER_NAME+' touch '+HOMEDIR+'/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
+            print('Creating file')
+
+            with open( HOMEDIR + '/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf', 'w') as conf:
+                fichero_conf().write(conf)
+            
+            print('File created succesfully!\n')
+            
+            print(os.system("cat "+ HOMEDIR + "/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf"))
+
+        else:
+            print("Directory doesen't exist")
+            os.system('mkdir '+HOMEDIR+'/.config/slimbookrgbkeyboard')
+            os.system('touch '+HOMEDIR+'/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
+            print('Creating file')
+
+            with open( HOMEDIR + '/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf', 'w') as conf:
+                fichero_conf().write(conf)
+            
+            print('File created succesfully!\n')
+
+            print(os.system("cat "+ HOMEDIR + "/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf"))
+
+#Genera config_object para el .conf
+def fichero_conf():
+    config_object = ConfigParser()
+
+    config_object["CONFIGURATION"] = {
+    "state": "on",                
+    "effect": "sudo ite8291r3-ctl effect rainbow",
+    "brightness": "50",   
+    "suspension": "",
+    "lb_state": "0",
+    "lb_rainbow": "0",
+    "lb_color": "777"
+
+    }
+    return config_object            
     
 
 if __name__ == "__main__":
