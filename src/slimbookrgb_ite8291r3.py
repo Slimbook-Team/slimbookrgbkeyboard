@@ -600,7 +600,7 @@ class SlimbookRGB1(Gtk.Window):
         
         config_object["CONFIGURATION"] = {
         "state": "on",                
-        "effect": "effect here",
+        "effect": "sudo ite8291r3-ctl effect rainbow",
         "brightness": "50",   
         "suspension": "",
         "lb_state": "0",
