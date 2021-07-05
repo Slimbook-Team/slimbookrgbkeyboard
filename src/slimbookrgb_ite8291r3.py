@@ -280,6 +280,11 @@ class SlimbookRGB1(Gtk.Window):
         label_effects.set_name('labelw')
         label_effects.set_halign(Gtk.Align.START)
 
+        btn_folder = Gtk.ToolButton()
+        btn_folder.set_icon_name('folder')
+        btn_folder.connect('clicked', self.open_anim)
+        btn_folder.set_halign(Gtk.Align.START)
+
         effect_store = Gtk.ListStore(str)
         effects = [
             "breathing",
@@ -412,6 +417,8 @@ class SlimbookRGB1(Gtk.Window):
         grid.attach(Gtk.Separator(), 0, 5, 5, 1)
         grid.attach(label_effects, 0, 6, 5, 1)
         grid.attach(self.effects_combo, 0, 7, 5, 1)
+        grid.attach(btn_folder, 5, 7, 1, 1)
+
 
         grid.attach(icon, 5, 0, 3, 7)
         
@@ -447,6 +454,9 @@ class SlimbookRGB1(Gtk.Window):
 
 
         win_box.pack_start(evnt_box, True, True, 0)
+
+    def open_anim(self, button):
+        os.system('xdg-open '+currpath+'/animations')
 
     def about_us(self, widget, x):
         print('\nINFO:')
@@ -553,6 +563,9 @@ class SlimbookRGB1(Gtk.Window):
     def lb_color_change(self, widget, color):
 
         self.lb_switch.set_active(True)
+        if self.lb_rainbow_switch.get_state():
+            print('Rainbow deactivation')
+            self.lb_rainbow_switch.set_active(False)
         self.update_config_field("lb_color", color)
         os.system('pkexec slimbookrgbkeyboard-applyconfig-pkexec lb_color')    
 
