@@ -1,13 +1,21 @@
+slimbookrgbkeyboard (0.3.6) focal; urgency=medium
+
+  * Autostart solved issue
+
+ -- slimbook <dev@slimbook.es>  Thu, 2 Jul 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.5) focal; urgency=medium
 
   * New default config when file is created.
 
  -- slimbook <dev@slimbook.es>  Thu, 24 Jun 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.4) focal; urgency=medium
 
   * Suspension issue solved
 
  -- slimbook <dev@slimbook.es>  Wed, 23 Jun 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.3) focal; urgency=medium
 
   * Name issue solved

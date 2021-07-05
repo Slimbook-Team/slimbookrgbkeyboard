@@ -130,6 +130,52 @@ def main(args):
                 else:
                     os.system("echo 0 > /sys/class/leds/qc71_laptop\:\:lightbar/brightness")  #Turn off light bar 
     
+    elif config.get('CONFIGURATION', 'state'):
+
+        state = config.get('CONFIGURATION', 'state')
+        effect = config.get('CONFIGURATION', 'effect')
+        brightness = config.get('CONFIGURATION', 'brightness')
+        suspension = config.get('CONFIGURATION', 'suspension')
+
+        lb_state = config.get('CONFIGURATION', 'lb_state')
+        lb_rainbow = config.get('CONFIGURATION', 'lb_rainbow')
+        lb_color = config.get('CONFIGURATION', 'lb_color')
+
+        # We apply the keyboard config
+        if state=="on":
+            print(state)
+            os.system(effect)
+            call = subprocess.getstatusoutput(effect)   
+            print("Exit: "+str(call))#Apply state
+
+            call = subprocess.getstatusoutput("sudo ite8291r3-ctl brightness "+brightness)   
+            print("Exit: "+str(call))#Apply state
+
+        else:
+            os.system("sudo ite8291r3-ctl off")  
+
+        # We apply the lightbar config
+        if lb_state == "1":
+            print("Aplicando cambios lightbar")    
+
+            print("Aplicando color "+lb_state)            	
+            call = subprocess.getstatusoutput("sudo su -c 'echo "+lb_state+" > /sys/class/leds/qc71_laptop\:\:lightbar/brightness'")
+            #print("Exit: "+str(call[0]))#Apply state   
+            print("Exit: "+str(call))#Apply state       	
+            
+            print("Aplicando rainbow "+lb_rainbow)
+            call = subprocess.getstatusoutput("sudo su -c 'echo "+lb_rainbow+" > /sys/class/leds/qc71_laptop\:\:lightbar/rainbow_mode'")
+            #print("Exit: "+str(call[0]))#Apply rainbow
+            print("Exit: "+str(call))#Apply state      
+            
+            print("Aplicando color "+lb_color)            	
+            call = subprocess.getstatusoutput("sudo su -c 'echo "+lb_color+" > /sys/class/leds/qc71_laptop\:\:lightbar/color'")
+            #print("Exit: "+str(call[0]))#Apply color
+            print("Exit: "+str(call))#Apply state      
+            
+        else:
+            os.system("echo 0 > /sys/class/leds/qc71_laptop\:\:lightbar/brightness")  #Turn off light bar 
+
 def check_config():
     
     if os.path.isfile(HOMEDIR+'/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf'):
