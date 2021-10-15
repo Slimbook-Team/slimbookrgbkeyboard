@@ -96,7 +96,7 @@ class PreferencesDialog(Gtk.Dialog):
         enlaces_box.set_name('center')
         enlaces_box.set_halign(Gtk.Align.CENTER)
 
-        salvavidas = Gtk.Label(label=_('This software is provided * as is * without warranty of any kind..'))
+        salvavidas = Gtk.Label(label=_('This software is provided * as is * without warranty of any kind.'))
 
         license1 = Gtk.Label()
         license1.set_markup("<span><b>"+_("You are free from:")+"</b></span>")
@@ -189,7 +189,7 @@ class PreferencesDialog(Gtk.Dialog):
 
         #TUTORIAL
         email = Gtk.Label()
-        email.set_markup("<span><b>"+_("Send an e-mail a: ")+"dev@slimbook.es</b></span>")
+        email.set_markup("<span><b>"+_("Send an e-mail to: ")+"dev@slimbook.es</b></span>")
         email.set_justify(Gtk.Justification.CENTER)
         email.set_name('label')
 
