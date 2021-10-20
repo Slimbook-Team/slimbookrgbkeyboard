@@ -4,37 +4,23 @@
 import os
 import gi
 import subprocess
-import gettext, locale
 import re #Busca patrones expresiones regulares
+import utils
+import slimbookrgbkeyboardinfo
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
 
-currpath = os.path.dirname(os.path.realpath(__file__))
-USER = subprocess.getoutput("logname")
+CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
+USER_NAME = utils.get_user()
 #IDIOMAS ----------------------------------------------------------------
 
 # CMD(Genera .pot):  pygettext -d slimbookamdcontrollercopy slimbookamdcontrollercopy.py
 # CMD(Genera .mo a partir de .po):  msgfmt -o slimbookamdcontrollercopy.po slimbookamdcontrollercopy.mo
-
-entorno_usu = locale.getlocale()[0]
-if entorno_usu.find("en") >= 0 or entorno_usu.find("es") >= 0 or entorno_usu.find("fr") >= 0:
-	idiomas = [entorno_usu]
-else: 
-    idiomas = ['en_EN'] 
-
-""" entorno_usu="fr_FR"
-idiomas = ['fr_FR']  """
-
-print('Language: ', entorno_usu)
-t = gettext.translation('slimbookamdcontroller',
-						currpath+'/locale',
-						languages=idiomas,
-						fallback=True,) 
-_ = t.gettext
-
+ 
+_ = utils.load_translation('slimbookrgb')
 
 class SlimbookRGB(Gtk.Window):
 
@@ -48,13 +34,7 @@ class SlimbookRGB(Gtk.Window):
   
         #COMPROBATION
 
-        
-
         call = subprocess.getstatusoutput('ls /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko')   
-                   
-        """ if os.system("python3 "+currpath+"/custom_conf.sh") == 0:
-            print ("ok") """
-
         
         if call[0] == 0:
             print('Module detected!')
@@ -64,9 +44,7 @@ class SlimbookRGB(Gtk.Window):
             except:
                 print("Rewriting .conf (adding last_color)")
                 #REQUIRES SUDO
-                """ with open('/etc/modprobe.d/clevo-xsm-wmi.conf', 'w') as file:
-                    file.write('options clevo-xsm-wmi kb_color=white,white,white, kb_brightness=10')
-                """
+
                 with open('/etc/modprobe.d/clevo-xsm-wmi.conf', 'a') as file:
                     file.write('\n#last_color=white\n')
 
@@ -74,22 +52,20 @@ class SlimbookRGB(Gtk.Window):
         else:      
 
             #Instalar directamente --> os.system("python3 "+currpath+"/install_window.py")
-
             #Preguntar antes de instalar
             print('Module is not installed')
 
-            os.system("python3 "+currpath+"/install_window.py")
+            os.system("python3 "+CURRENT_PATH+"/install_window.py")
 
 
     # WINDOW       
 
         Gtk.Window.__init__(self, title ="Slimbook RGB Keyboard")    
-        self.set_icon_from_file(currpath+"/images/icono.png") 
+        self.set_icon_from_file(CURRENT_PATH+"/images/icono.png") 
         self.set_size_request(500,300) #anchoxalto
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
         self.get_style_context().add_class("bg-image")  
-        #self.set_decorated(False)
 
         win_box= Gtk.VBox()
         self.add(win_box) 
@@ -116,7 +92,7 @@ class SlimbookRGB(Gtk.Window):
     # CONTENT -------------------------------------
 
         pixbuf1 = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/logo.png',
+            filename = CURRENT_PATH+'/images/logo.png',
 			width = 300,
 			height = 100,
 			preserve_aspect_ratio=True)
@@ -129,7 +105,7 @@ class SlimbookRGB(Gtk.Window):
 
         win_box.pack_start(logo_box, True, True, 0)
 
-        label1 = Gtk.Label(label=_("Ligth switch"))
+        label1 = Gtk.Label(label=_("Light switch"))
         label1.set_halign(Gtk.Align.START)
         label1.set_name('labelw')
 
@@ -174,7 +150,7 @@ class SlimbookRGB(Gtk.Window):
         colors_lbl.set_halign(Gtk.Align.START)
 
         pixbuf1 = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/icono.png',
+            filename = CURRENT_PATH+'/images/icono.png',
 			width = 150,
 			height = 150,
 			preserve_aspect_ratio=True)
@@ -187,7 +163,7 @@ class SlimbookRGB(Gtk.Window):
 
     # Info
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/question.png',
+            filename = CURRENT_PATH+'/images/question.png',
 			width = 30,
 			height = 30,
 			preserve_aspect_ratio=True)
@@ -234,11 +210,11 @@ class SlimbookRGB(Gtk.Window):
         
 
     def about_us(self, widget, x):
-        print('\nINFO:')
-        print('\n')
-        #Abre la ventana de info
-        print('sudo -u '+USER+' python3 '+currpath+'/slimbookrgbkeyboardinfo.py')
-        os.system('sudo -u '+USER+' python3 '+currpath+'/slimbookrgbkeyboardinfo.py')
+        
+        dialog = slimbookrgbkeyboardinfo.PreferencesDialog()
+
+        dialog.show_all()
+
 
     #Returns a str with param actual_value in .conf
     def get_value(self, parameter):
@@ -298,20 +274,20 @@ class SlimbookRGB(Gtk.Window):
 
         #Existent value
         old_value = self.get_value('kb_brightness')
-        param = 'kb_brightness='+old_value
+        param = 'kb_brightness={}'.format(old_value)
 
-        new_value = 'kb_brightness='+str(scale.get_value())[:-2]
+        new_value = 'kb_brightness={}'.format(str(scale.get_value())[:-2])
 
-        print (param+' will be replaced by '+new_value)
+        print (param+' will be replaced by {}'.format(new_value))
 
-        os.system("sudo sed -i 's/"+param+"/"+new_value+"/g' /etc/modprobe.d/clevo-xsm-wmi.conf")
+        os.system("sudo sed -i 's/{}/{}/g' /etc/modprobe.d/clevo-xsm-wmi.conf".format(param,new_value))
         os.system('sudo modprobe -r clevo_xsm_wmi && sudo modprobe clevo-xsm-wmi')
 
   
 
 #CSS
 style_provider = Gtk.CssProvider()
-style_provider.load_from_path(currpath+'/style.css')
+style_provider.load_from_path(CURRENT_PATH+'/style.css')
 
 Gtk.StyleContext.add_provider_for_screen (
     Gdk.Screen.get_default(), style_provider,
