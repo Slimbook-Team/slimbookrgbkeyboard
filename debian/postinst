@@ -37,9 +37,7 @@ if [ $? -eq 0 ]; then #IF device able
         
 
         #Installs light bar driver
-        cd /usr/share/slimbookrgbkeyboard
-        git clone https://github.com/pobrn/qc71_laptop
-        cd qc71_laptop
+        cd /usr/share/slimbookrgbkeyboard/qc71_laptop
         sudo make dkmsinstall
         sudo modprobe qc71_laptop
 
