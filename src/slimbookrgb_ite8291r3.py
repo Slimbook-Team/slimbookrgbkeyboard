@@ -442,7 +442,7 @@ class SlimbookRGB1(Gtk.Window):
         grid2.attach(icon2, 5, 0, 3, 10)
         
 
-        stack.add_titled(grid2, "grid2", "Ligth bar")
+        stack.add_titled(grid2, "grid2", "Light bar")
 
         # Implementation of stack switcher.
         stack_switcher = Gtk.StackSwitcher()
