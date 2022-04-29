@@ -129,7 +129,7 @@ class SlimbookRGB(Gtk.Window):
 
         win_box.pack_start(logo_box, True, True, 0)
 
-        label1 = Gtk.Label(label=_("Ligth switch"))
+        label1 = Gtk.Label(label=_("Light switch"))
         label1.set_halign(Gtk.Align.START)
         label1.set_name('labelw')
 
