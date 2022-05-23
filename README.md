@@ -11,9 +11,10 @@ TO DO:
 - Key per key colors!
 
 
-![imagen](https://user-images.githubusercontent.com/18195266/125775147-9676fbb0-a142-4159-a5a7-1fae81180766.png)
+![Captura de pantalla de 2022-05-23 09-42-11](https://user-images.githubusercontent.com/18195266/169769508-c65f8114-26c0-4837-9624-957c1c561c41.png)
 
-Her is a link to the app tutorial!
+
+Here is a link to the app tutorial!
 
 https://slimbook.es/en/tutoriales/aplicaciones-slimbook/501-en-slimbook-rgb-keyboard-3-0
 --
