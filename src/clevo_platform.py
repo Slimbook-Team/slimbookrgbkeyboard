@@ -48,7 +48,7 @@ class Grid(Gtk.Grid):
         scale = Gtk.Scale.new_with_range(
             orientation=Gtk.Orientation.HORIZONTAL,
             min=0,
-            max=10,
+            max=200,
             step=1
         )
         print('Scale loaded: '+self.get_value('kb_brightness'))
@@ -171,24 +171,26 @@ class Grid(Gtk.Grid):
 
         for param in enumerate(colors):
             print(colors[param]+' will be replaced by '+new_values[param])
-
-        # If it's black, we apply changes
-        if color == 'black':
-            os.system("sudo sed -i 's/"+param+"/"+new_value +
-                      "/g' /etc/modprobe.d/clevo_platform.conf")
-            os.system(
-                'sudo modprobe -r clevo_platform && sudo modprobe clevo_platform')
-        else:
-            # If new_color is not black, we save it as a backup for switch on
-            os.system("sudo sed -i 's/"+last_color+"/last_color=" +
-                      color+"/g' /etc/modprobe.d/clevo_platform.conf")
-
-            # If switch is on; we also apply changes
-            if self.switch1.get_active() == True:
+            
+            new_value = new_values[param]
+            param = colors[param]
+            
+            # If it's black, we apply changes
+            if color == 'black':
                 os.system("sudo sed -i 's/"+param+"/"+new_value +
-                          "/g' /etc/modprobe.d/clevo_platform.conf")
-                os.system(
-                    'sudo modprobe -r clevo_platform && sudo modprobe clevo_platform')
+                        "/g' /etc/modprobe.d/clevo_platform.conf")
+            
+            else:
+                # If new_color is not black, we save it as a backup for switch on
+                os.system("sudo sed -i 's/"+last_color+"/last_color=" +
+                        color+"/g' /etc/modprobe.d/clevo_platform.conf")
+
+                # If switch is on; we also apply changes
+                if self.switch1.get_active() == True:
+                    os.system("sudo sed -i 's/"+param+"/"+new_value +
+                            "/g' /etc/modprobe.d/clevo_platform.conf")
+        os.system(
+            'sudo modprobe -r clevo_platform && sudo modprobe clevo_platform')
 
     def light_change(self, scale, X):
 
