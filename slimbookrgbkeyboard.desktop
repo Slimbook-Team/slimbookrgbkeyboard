@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Slimbook RGB Keyboard
-Version=0.3.6
+Version=0.3.7beta
 Exec=slimbookrgbkeyboard
 Comment=Modify your keyboard options!
 Icon=/usr/share/slimbookrgbkeyboard/src/images/icono.png

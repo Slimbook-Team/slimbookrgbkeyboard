@@ -34,11 +34,11 @@ Gtk.StyleContext.add_provider_for_screen (
 
 class PreferencesDialog(Gtk.Dialog):
 	
-    def __init__(self):
+    def __init__(self, parent):
 		
-        Gtk.Dialog.__init__(self,
-			title='',
-            parent=None,
+        super().__init__(
+            parent=parent,
+			title=_('Information'),
             flags=0)
 
         self.set_icon_from_file("{}/images/icono.png".format(CURRENT_PATH))
@@ -199,7 +199,6 @@ class PreferencesDialog(Gtk.Dialog):
         email.set_markup("<span><b>"+_("Send an e-mail a: ")+"dev@slimbook.es</b></span>")
         email.set_justify(Gtk.Justification.CENTER)
         email.set_name('label')
-
     
     # PACKKING ----------------------------------------------------------------------
 
@@ -230,7 +229,9 @@ class PreferencesDialog(Gtk.Dialog):
         self.close()
         self.hide()
         self.destroy()
+        Gtk.main_quit()
 
-
-
+if __name__ == '__main__':
+    win = PreferencesDialog()
+    Gtk.main()
 

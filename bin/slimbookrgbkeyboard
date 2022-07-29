@@ -2,20 +2,26 @@
 # -*- coding: utf-8 -*-
 
 import os
-import subprocess
+import logging
 
-USER = subprocess.getoutput("logname")
+
+USER = os.getlogin()
 currpath = os.path.dirname(os.path.realpath(__file__))
+logger = logging.getLogger()
 
-print("GRUB:")
+if USER == 'root':
+    logger.info("You are root, don't execute this program as root")
 
-if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt")[0]==0:
-    print("Plan A Success")
-    os.system("python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgb_ite8291r3.py")
+else: # Run
+
+    if not os.system('pgrep slimbookrgbkeyboard.py') == 0:
+        
+        try:
+            logger.info("Slimbook RGB Keyboard")
+            os.system("python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py")
+        
+        except:
+            logger.info("Failed to execute program")
     
-else:
-    if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/clevo_module.txt")[0]==0:
-        print("Plan A, inutil, recurriendo a Plan B")
-        os.system("pkexec slimbookrgbkeyboard-slimbookrgb-pkexec")
     else:
-        print("Unable to open the app")
+        logger.info("Program already in execution")

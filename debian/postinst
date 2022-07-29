@@ -3,8 +3,6 @@
 #
 # see: dh_installdeb(1)
 
-set -x
-
 echo "Running postinst..."
 
 ls /usr/share/slimbookrgbkeyboard
@@ -14,9 +12,8 @@ sudo rm /home/*/.config/autostart/slimbookrgbkeyboard-autostart.desktop
 
 ls /usr/local/bin | grep ite8291r3-ctl
 
-
 if [ $? -ne 0 ]; then #IF Ite not installed
-    echo "trying to install ite8291r3_driver"
+    echo "Trying to install ite8291r3_driver"
     pip3 install ite8291r3-ctl
     if [ $? -eq 0 ];then
         echo "ite8291r3_driver installed!"
@@ -26,6 +23,7 @@ if [ $? -ne 0 ]; then #IF Ite not installed
 
 fi
 
+echo "Checking devices"
 /usr/local/bin/ite8291r3-ctl query --devices
 
 if [ $? -eq 0 ]; then #IF device able
@@ -33,20 +31,32 @@ if [ $? -eq 0 ]; then #IF device able
 
         echo "ite8291r3_driver --> ABLE" > /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt
 
+        echo "Giving exec permissions to system-sleep script"
         chmod +x /usr/lib/systemd/system-sleep/slimbookrgbkeyboard
         
-
-        #Installs light bar driver
-        cd /usr/share/slimbookrgbkeyboard/qc71_laptop
-        sudo make dkmsinstall
         sudo modprobe qc71_laptop
+        if [ $? -ne 0 ]; then 
+            echo "Installing qc71_laptop"
+            cd /usr/share/slimbookrgbkeyboard/qc71_laptop
+            sudo make dkmsinstall qc71_laptop/0.0
+            sudo modprobe qc71_laptop
+            if [ $? -ne 0 ]; then
+                echo "qc71_laptop modprobe ok"
+            else 
+                echo "qc71_laptop modprobe failed"
+            fi
+        else 
+            echo "qc71_laptop modprobe ok"
+        fi
 
 else
-    echo "clevo-xwmi --> TRY ABLE"
-    #This one throws clevo-xwmi install when app launched
-    echo "clevo-xwmi --> TRY ABLE" > /usr/share/slimbookrgbkeyboard/clevo_module.txt
+    echo "clevo-xsm-wmi set to install."
+    #This throws clevo-xwmi install when app launched
+    echo "clevo-xsm-wmi --> TRY ABLE" > /usr/share/slimbookrgbkeyboard/clevo_module.txt
 
 fi
+
+python3 /usr/share/slimbookrgbkeyboard/src/configuration/check_config.py
 
 #DEBHELPER#
 exit 0

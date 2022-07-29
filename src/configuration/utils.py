@@ -6,20 +6,15 @@ import locale
 
 
 def get_user(from_file=None):
-    
+    try:
+        user_name = getpass.getuser()
+    except Exception:
+        user_name = os.getlogin()
+
     if from_file and os.path.exists(from_file):
         exit_code, candidate = subprocess.getstatusoutput('cat {} | tail -n 1 | cut -f 2 -d "@"'.format(from_file))
         if exit_code != 0:
             user_name = candidate
-            
-    try:
-        user_name = getpass.getuser()
-    except Exception:
-        try:
-            user_name = os.getlogin()
-        except:
-            user_name = subprocess.getoutput('last -wn1 | head -n 1 | cut -f 1 -d " "')
-    
 
     if user_name == 'root':
         if 'SUDO_USER' in os.environ and os.environ['SUDO_USER'] != 'root':

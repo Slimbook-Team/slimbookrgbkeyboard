@@ -1,12 +1,2 @@
 #!/bin/bash
-LOCATIONS=(
-"/usr/share/slimbookrgbkeyboard/src/slimbookrgb.py"
-)
-
-for ((i = 0; i < ${#LOCATIONS[@]}; i++))
-do
-    if [[ -e "${LOCATIONS[${i}]}" ]]; then
-        python3 ${LOCATIONS[${i}]} $1
-        break
-    fi
-done
+python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py $1
