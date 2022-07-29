@@ -11,13 +11,13 @@ ls /usr/share/slimbookrgbkeyboard
 
 rm /usr/share/slimbookrgbkeyboard/*.txt
 
-ls /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko
+ls /lib/modules/$(uname -r)/build/clevo_platform.ko
 
 if [ $? -eq 0 ]; then
 
-    rmmod clevo-xsm-wmi
+    rmmod clevo_platform
 
-    rm -r /lib/modules/$(uname -r)/extra/clevo-xsm-wmi.ko  
+    rm -r /lib/modules/$(uname -r)/build/clevo_platform.ko  
 
 else
 

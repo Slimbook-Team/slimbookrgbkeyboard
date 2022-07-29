@@ -89,14 +89,14 @@ class SlimbookRGBKeyboard(Gtk.Window):
 
         win_grid.attach(icon, 5, 1, 2, 5)
 
-        # If module clevo-xsm-wmi
+        # If module clevo_platform
         if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt")[0]==0:
             import ite8291r3_ctl
             win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
 
         else:
-            import clevo_xsm_wmi
-            win_grid.attach(clevo_xsm_wmi.Grid(), 0, 1, 5, 5)
+            import clevo_platform
+            win_grid.attach(clevo_platform.Grid(), 0, 1, 5, 5)
         
 
     # Info

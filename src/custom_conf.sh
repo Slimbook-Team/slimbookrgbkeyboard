@@ -1,5 +1,5 @@
 #!/bin/bash
 
-tee /etc/modprobe.d/clevo-xsm-wmi.conf <<< 'options clevo-xsm-wmi kb_color=white,white,white, kb_brightness=10'
+tee /etc/modprobe.d/clevo_platform.conf <<< 'options clevo_platform color_left=0xFFFFFF color_left=0xFFFFFF color_left=0xFFFFFF kb_brightness=200'
 
-tee -a /etc/modprobe.d/clevo-xsm-wmi.conf <<< '#last_color=white'
+tee -a /etc/modprobe.d/clevo_platform.conf <<< '#last_color=0xFFFFFF'

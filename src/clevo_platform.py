@@ -67,7 +67,7 @@ class Grid(Gtk.Grid):
 
         red_btn = Gtk.Button()
         red_btn.set_name('red')
-        red_btn.connect('clicked', self.color_change,'red')
+        red_btn.connect('clicked', self.color_change,'0xFFOOOO')
         btn_box.pack_start(red_btn, True, True, 0)
 
         green_btn = Gtk.Button()

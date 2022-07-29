@@ -50,9 +50,9 @@ if [ $? -eq 0 ]; then #IF device able
         fi
 
 else
-    echo "clevo-xsm-wmi set to install."
+    echo "clevo_platform set to install."
     #This throws clevo-xwmi install when app launched
-    echo "clevo-xsm-wmi --> TRY ABLE" > /usr/share/slimbookrgbkeyboard/clevo_module.txt
+    echo "clevo_platform --> TRY ABLE" > /usr/share/slimbookrgbkeyboard/clevo_module.txt
 
 fi
 
