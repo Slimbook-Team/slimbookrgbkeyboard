@@ -1,16 +1,9 @@
 #!/bin/bash
 
-sudo apt install gcc make build-essential git linux-headers-$(uname -r) -y
+sudo apt-add-repository ppa:slimbook/slimbook -y
 
-cd /usr/share/slimbookrgbkeyboard
-
-sudo apt install ./clevo-platform-dkms_0.0_amd64.deb
+sudo apt install slimbook-keyboard-dkms
 
 # sudo tee /etc/modules-load.d/clevo_platform.conf <<< clevo_platform
 
-tee /etc/modprobe.d/clevo_platform.conf <<< 'options clevo_platform color_left=0xFFFFFF color_center=0xFFFFFF color_right=0xFFFFFF kb_brightness=200'
-
-tee -a /etc/modprobe.d/clevo_platform.conf <<< '#last_color=0xFFFFFF'
-
-
-sudo update-initramfs -uk all
+tee /etc/modprobe.d/clevo_platform.conf <<< 'options clevo_platform color_left=0xFFFFFF color_center=0xFFFFFF color_right=0xFFFFFF brightness=200 state=on'

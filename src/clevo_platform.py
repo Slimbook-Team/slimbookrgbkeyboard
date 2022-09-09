@@ -21,6 +21,8 @@ CONFIG_FILE = os.path.join(
 
 _ = utils.load_translation('slimbookrgb')
 
+MODULEDIR = "/sys/devices/platform/clevo_platform/"
+
 
 class Grid(Gtk.Grid):
 
@@ -36,8 +38,9 @@ class Grid(Gtk.Grid):
 
     def setup(self):
 
+        # -- SWITCH --
         self.switch1 = Gtk.Switch()
-        if not self.get_value('kb_color') == 'black':
+        if not self.get_value('state')[1] == '0':
             self.switch1.set_active(True)
         print('Switch  loaded: '+str(self.switch1.get_state()))
 
@@ -45,15 +48,21 @@ class Grid(Gtk.Grid):
         self.switch1.connect("state-set", self.switch_light)
 
         # -- SCALE --
-        scale = Gtk.Scale.new_with_range(
+        self.scale = Gtk.Scale.new_with_range(
             orientation=Gtk.Orientation.HORIZONTAL,
             min=0,
-            max=200,
+            max=100,
             step=1
         )
-        print('Scale loaded: '+self.get_value('kb_brightness'))
-        scale.set_value(value=float(self.get_value('kb_brightness')))
-        scale.connect("button-release-event", self.light_change)
+        try:
+            value = float(self.get_brightness())/255 * 100
+        except:
+            value = float(self.get_value("brightness")[1])/255 * 100
+        self.scale.set_value(value)
+        self.scale.connect("button-release-event", self.set_brightness)
+        self.scale.set_sensitive(
+            False) if not self.switch1.get_active() else print("Scale active")
+        # print('Scale loaded: '+value)
 
     # CONTENT -------------------------------------
 
@@ -69,32 +78,32 @@ class Grid(Gtk.Grid):
 
         red_btn = Gtk.Button()
         red_btn.set_name('red')
-        red_btn.connect('clicked', self.color_change, '0xFFOOOO')
+        red_btn.connect('clicked', self.color_change, '0xff0000')
         btn_box.pack_start(red_btn, True, True, 0)
 
         green_btn = Gtk.Button()
         green_btn.set_name('green')
-        green_btn.connect('clicked', self.color_change, '0x7FFF00')
+        green_btn.connect('clicked', self.color_change, '0x00ff00')
         btn_box.pack_start(green_btn, True, True, 0)
 
         blue_btn = Gtk.Button()
         blue_btn.set_name('blue')
-        blue_btn.connect('clicked', self.color_change, '0x0000FF')
+        blue_btn.connect('clicked', self.color_change, '0x0000ff')
         btn_box.pack_start(blue_btn, True, True, 0)
 
         white_btn = Gtk.Button()
         white_btn.set_name('white')
-        white_btn.connect('clicked', self.color_change, '0xFFFFFF')
+        white_btn.connect('clicked', self.color_change, '0xffffff')
         btn_box.pack_start(white_btn, True, True, 0)
 
         yellow_btn = Gtk.Button()
         yellow_btn.set_name('yellow')
-        yellow_btn.connect('clicked', self.color_change, '0xFFFF00')
+        yellow_btn.connect('clicked', self.color_change, '0xffff00')
         btn_box.pack_start(yellow_btn, True, True, 0)
 
         magenta_btn = Gtk.Button()
         magenta_btn.set_name('magenta')
-        magenta_btn.connect('clicked', self.color_change, '0xFF00FF')
+        magenta_btn.connect('clicked', self.color_change, '0xff00ff')
         btn_box.pack_start(magenta_btn, True, True, 0)
 
         colors_lbl = Gtk.Label(label='Colors')
@@ -103,108 +112,75 @@ class Grid(Gtk.Grid):
 
     # Grid attach --------------------------------------------------
 
+        self.set_halign(Gtk.Align.CENTER)
         self.attach(label1, 0, 0, 1, 1)
-        self.attach(self.switch1, 2, 0, 1, 1)
+        self.attach(self.switch1, 3, 0, 1, 1)
         self.attach(label2, 0, 1, 1, 1)
-        self.attach(scale, 1, 1, 2, 1)
-        self.attach(colors_lbl, 0, 4, 3, 1)
-        self.attach(btn_box, 0, 6, 3, 1)
+        self.attach(self.scale, 2, 1, 2, 1)
+        self.attach(colors_lbl, 0, 4, 4, 1)
+        self.attach(btn_box, 0, 6, 4, 1)
 
         self.show_all()
 
     # Returns a str with param actual_value in .conf
     def get_value(self, parameter):
-        import re
-        call = subprocess.getoutput('cat /etc/modprobe.d/clevo_platform.conf')
-        salida = str(call)
-
-        if parameter == 'kb_brightness':
-            patron = re.compile("kb_brightness\=([0-9]{1,2})").search(call)[1]
+        exit_code, res = subprocess.getstatusoutput(
+            'cat /etc/modprobe.d/clevo_platform.conf')
+        if exit_code == 0:
+            res = str(res)
+            patron = re.compile("{}\=(\w+)".format(parameter)).search(res)
+            return patron
         else:
-            if parameter == 'color_left':
-                patron = re.compile("color_left\=(\w{1,})").search(call)[1]
-            else:
-                if parameter == 'color_center':
-                    patron = re.compile(
-                        "color_center\=(\w{1,})").search(call)[1]
-
-                else:
-                    if parameter == 'color_right':
-                        patron = re.compile(
-                            "color_right\=(\w{1,})").search(call)[1]
-                    else:
-                        if parameter == 'last_color':
-                            patron = re.compile(
-                                "last_color\=(\w{1,})").search(call)[1]
-                        else:
-                            print('Non accepted parameter.')
-        value = patron
-
-        return value
+            try:
+                file = os.path.join(
+                    CURRENT_PATH, "configuration", "clevo_platform.conf")
+                exit_code, res = subprocess.getstatusoutput("cat "+file)
+                patron = re.compile("{}\=(\w+)".format(parameter)).search(res)
+                return patron
+            except:
+                print("Failed to get clevo_platform.conf")
 
     def switch_light(self, switch, state):
-        if switch.get_active() == True:
-            print(switch.get_active())
-            self.color_change(self, self.get_value('last_color'))
+        if switch.get_active():
+            state = 1
+            self.scale.set_sensitive(True)
         else:
-            print(switch.get_active())
-            self.color_change(self, '0x000000')
+            state = 0
+            self.scale.set_sensitive(False)
+
+        self.apply_and_save(state, "state")
 
     def color_change(self, widget, color):
 
-        # Getting last color
-        last_color = 'last_color='+self.get_value('last_color')
-
-        # Getting color value
-        old_value = self.get_value('kb_color')
-        colors = {
-            'param1': 'color_left='+old_value,
-            'param2': 'color_center='+old_value,
-            'param3': 'color_right='+old_value,
+        COLORS = {
+            "color_left",
+            "color_right",
+            "color_center"
         }
 
-        new_values = {
-            'new_value1' : 'color_left='+color,
-            'new_value2' : 'color_center='+color,
-            'new_value3' : 'color_right='+color,
-        }
+        for color_zone in COLORS:
 
-        for param in enumerate(colors):
-            print(colors[param]+' will be replaced by '+new_values[param])
-            
-            new_value = new_values[param]
-            param = colors[param]
-            
-            # If it's black, we apply changes
-            if color == 'black':
-                os.system("sudo sed -i 's/"+param+"/"+new_value +
-                        "/g' /etc/modprobe.d/clevo_platform.conf")
-            
-            else:
-                # If new_color is not black, we save it as a backup for switch on
-                os.system("sudo sed -i 's/"+last_color+"/last_color=" +
-                        color+"/g' /etc/modprobe.d/clevo_platform.conf")
+            self.apply_and_save(color, color_zone)
 
-                # If switch is on; we also apply changes
-                if self.switch1.get_active() == True:
-                    os.system("sudo sed -i 's/"+param+"/"+new_value +
-                            "/g' /etc/modprobe.d/clevo_platform.conf")
+    def get_brightness(self):
+        exit_code, result = subprocess.getstatusoutput(
+            "cat {}{}".format(MODULEDIR, "brightness"))
+        return result
+
+    def set_brightness(self, scale, X):
+
+        value = str(scale.get_value())[:-2]
+
+        result = int(255 * int(value) / 100)
+
+        self.apply_and_save(result, "brightness")
+
+    def apply_and_save(self, value, var):
+        print("Apply: "+str(value)+" "+str(var))
+        group = self.get_value(var).group()
+        os.system("echo {} | tee {}{}".format(value, MODULEDIR, var))
         os.system(
-            'sudo modprobe -r clevo_platform && sudo modprobe clevo_platform')
-
-    def light_change(self, scale, X):
-
-        # Existent value
-        old_value = self.get_value('kb_brightness')
-        param = 'kb_brightness={}'.format(old_value)
-
-        new_value = 'kb_brightness={}'.format(str(scale.get_value())[:-2])
-
-        print('{} will be replaced by {}'.format(param, new_value))
-
-        os.system(
-            "sudo sed -i 's/{}/{}/g' /etc/modprobe.d/clevo_platform.conf".format(param, new_value))
-        os.system('sudo modprobe -r clevo_platform && sudo modprobe clevo_platform')
+            "sudo sed -i 's/{}/{}={}/g' /etc/modprobe.d/clevo_platform.conf".format(group, var, value))
 
     def check_installation(self):
         # COMPROBATION

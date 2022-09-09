@@ -145,7 +145,7 @@ class SlimbookRGBKeyboard(Gtk.Window):
             os.system('sudo -u {} {}'.format(USER_NAME, os.path.join(CURRENT_PATH, 'slimbookrgbkeyboardinfo.py')))
         else:
             import slimbookrgbkeyboardinfo
-            dialog = slimbookrgbkeyboardinfo.PreferencesDialog()
+            dialog = slimbookrgbkeyboardinfo.PreferencesDialog(self)
             dialog.show_all()
 
 if __name__ == '__main__':
