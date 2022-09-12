@@ -14,7 +14,7 @@ gi.require_version('Gdk', '3.0')
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
 
-currpath = os.path.dirname(os.path.realpath(__file__))
+CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 USER = subprocess.getoutput("logname")
 #IDIOMAS ----------------------------------------------------------------
 
@@ -32,7 +32,7 @@ idiomas = ['fr_FR']  """
 
 print('Language: ', entorno_usu)
 t = gettext.translation('slimbookamdcontroller',
-						currpath+'/locale',
+						CURRENT_PATH+'/locale',
 						languages=idiomas,
 						fallback=True,) 
 _ = t.gettext
@@ -62,13 +62,13 @@ class SlimbookRGB(Gtk.Window):
         else:      
             #Preguntar antes de instalar
             print('Module is not installed')
-            os.system("python3 "+currpath+"/install_window.py")
+            Gtk.main_quit()
 
 
     # WINDOW       
 
         Gtk.Window.__init__(self, title ="Slimbook RGB Keyboard")    
-        self.set_icon_from_file(currpath+"/images/icono.png") 
+        self.set_icon_from_file(CURRENT_PATH+"/images/icono.png") 
         self.set_size_request(500,300) #anchoxalto
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
@@ -105,7 +105,7 @@ class SlimbookRGB(Gtk.Window):
     # CONTENT -------------------------------------
 
         pixbuf1 = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/logo.png',
+            filename = CURRENT_PATH+'/images/logo.png',
 			width = 300,
 			height = 100,
 			preserve_aspect_ratio=True)
@@ -163,7 +163,7 @@ class SlimbookRGB(Gtk.Window):
         colors_lbl.set_halign(Gtk.Align.START)
 
         pixbuf1 = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/icono.png',
+            filename = CURRENT_PATH+'/images/icono.png',
 			width = 150,
 			height = 150,
 			preserve_aspect_ratio=True)
@@ -176,7 +176,7 @@ class SlimbookRGB(Gtk.Window):
 
     # Info
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename = currpath+'/images/question.png',
+            filename = CURRENT_PATH+'/images/question.png',
 			width = 30,
 			height = 30,
 			preserve_aspect_ratio=True)
@@ -286,7 +286,7 @@ class SlimbookRGB(Gtk.Window):
 
 #CSS
 style_provider = Gtk.CssProvider()
-style_provider.load_from_path(currpath+'/style.css')
+style_provider.load_from_path(CURRENT_PATH+'/style.css')
 
 Gtk.StyleContext.add_provider_for_screen (
     Gdk.Screen.get_default(), style_provider,
