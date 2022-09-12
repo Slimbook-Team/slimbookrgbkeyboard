@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-add-repository ppa:slimbook/slimbook -y
+sudo apt-add-repository ppa:slimbook/slimbook
 
 sudo apt install slimbook-keyboard-dkms
 
