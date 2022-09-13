@@ -12,19 +12,10 @@ Depends: ${misc:Depends}, ${python:Depends},
     python3,
     python3-all,
     python3-gi,
-    python3-pil,
-    python3-pip,
-    python3-dbus,
     git,
-    build-essential,
-    cmake,
-    cmake-data,
-    pciutils,
     libcurl4,
-    libpci-dev,
-    libpci3,
-    librhash0,
-    udev,
-    zlib1g-dev
+    slimbook-keyboard-dkms,
+    python3-ite8291r3-ctl,
+    slimbook-qc71-dkms
 Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
  Description: Slimbook RGB, gestiona el color y brillo de tu teclado.

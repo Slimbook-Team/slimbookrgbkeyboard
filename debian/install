@@ -1,5 +1,4 @@
 src /usr/share/slimbookrgbkeyboard
-qc71_laptop /usr/share/slimbookrgbkeyboard
 slimbookrgbkeyboard.desktop /usr/share/slimbookrgbkeyboard
 bin/* /usr/bin
 slimbookrgbkeyboard.desktop /usr/share/applications
