@@ -9,18 +9,12 @@ import re
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
 
-
 USER_NAME = utils.get_user()
-
 HOMEDIR = expanduser("~".format(USER_NAME))
-
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
-
 CONFIG_FILE = os.path.join(
     HOMEDIR, '/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
-
 _ = utils.load_translation('slimbookrgb')
-
 MODULEDIR = "/sys/devices/platform/clevo_platform/"
 
 
@@ -62,7 +56,6 @@ class Grid(Gtk.Grid):
         self.scale.connect("button-release-event", self.set_brightness)
         self.scale.set_sensitive(
             False) if not self.switch1.get_active() else print("Scale active")
-        # print('Scale loaded: '+value)
 
     # CONTENT -------------------------------------
 
@@ -178,9 +171,8 @@ class Grid(Gtk.Grid):
     def apply_and_save(self, value, var):
         print("Apply: "+str(value)+" "+str(var))
         group = self.get_value(var).group()
-        os.system("echo {} | tee {}{}".format(value, MODULEDIR, var))
-        os.system(
-            "sudo sed -i 's/{}/{}={}/g' /etc/modprobe.d/clevo_platform.conf".format(group, var, value))
+        sudo("echo {} | tee {}{}".format(value, MODULEDIR, var))
+        sudo("sed -i 's/{}/{}={}/g' /etc/modprobe.d/clevo_platform.conf".format(group, var, value))
 
     def check_installation(self):
         # COMPROBATION
@@ -199,8 +191,9 @@ class Grid(Gtk.Grid):
                     file.write('\n#last_color=white\n')
 
         else:
-            # Instalar directamente --> os.system("python3 "+currpath+"/install_window.py")
-            # Preguntar antes de instalar
             print('Module is not installed')
 
-            os.system("python3 "+CURRENT_PATH+"/install_window.py")
+
+def sudo(cmd):
+    # print('pkexec slimbookrgbkeyboard-applyconfig-pkexec cmd "{}"'.format(cmd))
+    os.system('pkexec slimbookrgbkeyboard-applyconfig-pkexec cmd "{}"'.format(cmd))

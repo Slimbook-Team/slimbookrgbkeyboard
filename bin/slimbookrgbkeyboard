@@ -2,26 +2,33 @@
 # -*- coding: utf-8 -*-
 
 import os
-import logging
+import sys
+import subprocess
+
+from pathlib import Path
 
 
-USER = os.getlogin()
-currpath = os.path.dirname(os.path.realpath(__file__))
-logger = logging.getLogger()
+os.environ['NO_AT_BRIDGE'] = '1'
+if str(Path(__file__).absolute()).startswith('/usr'):
+    srcpath = '/usr/share/slimbookrgbkeyboard/src'
+    print(srcpath)
+else:
+    srcpath = str(Path(__file__).absolute().parents[1] / 'src')
+    print(srcpath)
 
-if USER == 'root':
-    logger.info("You are root, don't execute this program as root")
+sys.path.insert(1, srcpath)
 
-else: # Run
+if __name__ == "__main__":
+    pgrep = subprocess.getoutput("pgrep slimbookrgbkeyboard")
+    numProcRunning = pgrep.split('\n')
 
-    if not os.system('pgrep slimbookrgbkeyboard.py') == 0:
-        
-        try:
-            logger.info("Slimbook RGB Keyboard")
-            os.system("python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py")
-        
-        except:
-            logger.info("Failed to execute program")
-    
+    if len(numProcRunning) > 1:
+        print('Slimbook AMD it is in execution')
     else:
-        logger.info("Program already in execution")
+        try:
+            import slimbookrgbkeyboard
+            slimbookrgbkeyboard.main()
+        except KeyboardInterrupt as exception:
+            print(exception)
+        #os.system('python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py')
+exit(0)

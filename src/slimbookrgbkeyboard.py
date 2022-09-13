@@ -15,12 +15,16 @@ from gi.repository import Gdk, Gtk, GdkPixbuf
 
 USER_NAME = utils.get_user()
 
-HOMEDIR = expanduser("~".format(USER_NAME))
+HOMEDIR = expanduser("~{}".format(USER_NAME))
 
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 CONFIG_FILE = os.path.join(
-    HOMEDIR, '/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
+    HOMEDIR, '.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
+
+AUTOSTART_FILE = os.path.join(
+    HOMEDIR, ".config/autostart/slimbookrgbkeyboard-autostart.desktop")
+
 
 _ = utils.load_translation('slimbookrgb')
 
@@ -93,6 +97,7 @@ class SlimbookRGBKeyboard(Gtk.Window):
         if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt")[0]==0:
             import ite8291r3_ctl
             win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
+            self.check_autostart()
 
         else:
             import clevo_platform
@@ -123,21 +128,15 @@ class SlimbookRGBKeyboard(Gtk.Window):
 
         win_grid.attach(evnt_box, 6, 5, 1, 1)
 
-    def check_autostart():
-
-        autostart_enabled_path = os.path.join(
-            HOMEDIR, '/.config/autostart/slimbookrgbkeyboard-autostart.desktop')
-
-        if os.path.exists(autostart_enabled_path+'a'):
-            print("Autostart enabled.")
-        else:
+    def check_autostart(self):
+        if not os.path.isfile(AUTOSTART_FILE):
+            autostart_dir = os.path.join(HOMEDIR,'.config/autostart')
+            if not os.path.exists(autostart_dir):
+                print("Directory doesen't exist")
+                os.mkdir(autostart_dir)
             autostart_file = os.path.join(
-                CURRENT_PATH, '/slimbookrgbkeyboard-autostart.desktop')
-
-            destiny = os.path.join(
-                HOMEDIR, '/.config/autostart/slimbookrgbkeyboard-autostart.desktop')
-
-            shutil.copy(autostart_file, destiny)
+                CURRENT_PATH, 'slimbookrgbkeyboard-autostart.desktop')
+            shutil.copy(autostart_file, AUTOSTART_FILE)
 
     def about_us(self, widget, x):
         
@@ -148,9 +147,13 @@ class SlimbookRGBKeyboard(Gtk.Window):
             dialog = slimbookrgbkeyboardinfo.PreferencesDialog(self)
             dialog.show_all()
 
-if __name__ == '__main__':
 
+def main():
     win = SlimbookRGBKeyboard()
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
     Gtk.main()
+
+if __name__ == '__main__':
+    main()
+    

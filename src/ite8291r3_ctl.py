@@ -14,12 +14,12 @@ from gi.repository import Gdk, Gtk
 
 USER_NAME = utils.get_user()
 
-HOMEDIR = expanduser("~".format(USER_NAME))
+HOMEDIR = expanduser("~{}".format(USER_NAME))
 
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 CONFIG_FILE = os.path.join(
-    HOMEDIR, '/.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
+    HOMEDIR, '.config/slimbookrgbkeyboard/slimbookrgbkeyboard.conf')
 
 _ = utils.load_translation('slimbookrgb')
 
@@ -153,7 +153,6 @@ class Grid(Gtk.Grid):
 
             print("Index: "+str(config_effect_index))
 
-         
             effects_combo.set_active(config_effect_index)
         except:
             print("Last selection was not an effect")
