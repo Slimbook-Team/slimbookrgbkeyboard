@@ -1,1 +1,0 @@
-options clevo-xsm-wmi kb_color=white,white,white, kb_brightness=10#last_color=white

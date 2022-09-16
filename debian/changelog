@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.3.7beta) focal; urgency=medium
+
+  * Code separated in classes
+
+ -- slimbook <dev@slimbook.es>  Thu, 2 Jul 2021 11:54:22 +0200
+
 slimbookrgbkeyboard (0.3.6) focal; urgency=medium
 
   * Autostart solved issue

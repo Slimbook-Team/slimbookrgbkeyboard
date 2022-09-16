@@ -2,20 +2,33 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import subprocess
 
-USER = subprocess.getoutput("logname")
-currpath = os.path.dirname(os.path.realpath(__file__))
+from pathlib import Path
 
-print("GRUB:")
 
-if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt")[0]==0:
-    print("Plan A Success")
-    os.system("python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgb_ite8291r3.py")
-    
+os.environ['NO_AT_BRIDGE'] = '1'
+if str(Path(__file__).absolute()).startswith('/usr'):
+    srcpath = '/usr/share/slimbookrgbkeyboard/src'
+    print(srcpath)
 else:
-    if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/clevo_module.txt")[0]==0:
-        print("Plan A, inutil, recurriendo a Plan B")
-        os.system("pkexec slimbookrgbkeyboard-slimbookrgb-pkexec")
+    srcpath = str(Path(__file__).absolute().parents[1] / 'src')
+    print(srcpath)
+
+sys.path.insert(1, srcpath)
+
+if __name__ == "__main__":
+    pgrep = subprocess.getoutput("pgrep slimbookrgbkeyboard")
+    numProcRunning = pgrep.split('\n')
+
+    if len(numProcRunning) > 1:
+        print('Slimbook AMD it is in execution')
     else:
-        print("Unable to open the app")
+        try:
+            import slimbookrgbkeyboard
+            slimbookrgbkeyboard.main()
+        except KeyboardInterrupt as exception:
+            print(exception)
+        #os.system('python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py')
+exit(0)
