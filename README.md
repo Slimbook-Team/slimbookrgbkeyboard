@@ -9,9 +9,13 @@
   </a>
 </p>
 
-Service to get desktop notifications from ypur device:
+Service to get desktop notifications from your device:
 * Allow double tap enable/disable touchpad
 * Send notifications depending on your device.
+
+Service is autoenabled on install, yo can find it as slimbook.service
+
+To see notifications, you need to launch the Slimbook Client Notifications indicator. (read below)
 
 ## Usage/Examples
 Run:
