@@ -196,7 +196,7 @@ class PreferencesDialog(Gtk.Dialog):
 
         #TUTORIAL
         email = Gtk.Label()
-        email.set_markup("<span><b>"+_("Send an e-mail a: ")+"dev@slimbook.es</b></span>")
+        email.set_markup("<span><b>"+_("Send an e-mail to: ")+"dev@slimbook.es</b></span>")
         email.set_justify(Gtk.Justification.CENTER)
         email.set_name('label')
     
