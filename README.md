@@ -11,6 +11,8 @@
 
 The Slimbook RGB Keyboard app enables full customization of your built-in light bar (where available) and keyboard backlight color, brightness and visual effects.
 
+This app depends on thre packages of our repository, so, if you want to nstall it without adding our repository, you will need to install manually
+
 Here is a [link](https://slimbook.es/en/tutoriales/aplicaciones-slimbook/501-en-slimbook-rgb-keyboard-3-0) to the app tutorial!
 
 Also, if you have a Slimbook Titan or similar laptop, and you'd like to customize the light; you can find a template inside the folder src/animations, you just need to change the RGB values and save the file inside your local SlimbookRGB animation folder (path: "/usr/share/slimbookrgbkeyboard/src/animations"). 
