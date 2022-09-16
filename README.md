@@ -9,20 +9,22 @@
   </a>
 </p>
 
-The Slimbook RGB Keyboard app enables full customization of your built-in light bar (where available) and keyboard backlight color, brightness and visual effects.
+Service to get desktop notifications from ypur device:
+* Allow double tap enable/disable touchpad
+* Send notifications depending on your device.
 
-This app depends on thre packages of our repository, so, if you want to nstall it without adding our repository, you will need to install manually
+## Usage/Examples
+Run:
 
-Here is a [link](https://slimbook.es/en/tutoriales/aplicaciones-slimbook/501-en-slimbook-rgb-keyboard-3-0) to the app tutorial!
-
-Also, if you have a Slimbook Titan or similar laptop, and you'd like to customize the light; you can find a template inside the folder src/animations, you just need to change the RGB values and save the file inside your local SlimbookRGB animation folder (path: "/usr/share/slimbookrgbkeyboard/src/animations"). 
-You will probably have to do it from your terminal as root user. 
-
-> This app conflicts with clevo-xsm-wmi kernel module, and tuxedo_keyboard modules
+```
+slimbookindicator
+```
+And double-tap touchpad led or press performance mode keys
 
 ### 🏠 [Homepage](https://github.com/slimbook/slimbookrgbkeyboard)
 
 ## Author
+- [@marslimbook](https://www.github.com/marslimbook)
 
 👤 **Slimbook**
 
@@ -33,7 +35,7 @@ You will probably have to do it from your terminal as root user.
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/slimbook/slimbookrgbkeyboard/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/slimbook/slimboo_service/issues). 
 
 ## Show your support
 
