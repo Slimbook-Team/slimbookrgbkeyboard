@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Slimbook RGB Keyboard 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-0.3.7beta-blue.svg?cacheSeconds=2592000" />
   <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">
     <img alt="License: GPL--3+" src="https://img.shields.io/badge/License-GPL--3+-yellow.svg" />
   </a>
@@ -9,21 +9,17 @@
   </a>
 </p>
 
-Service to get desktop notifications from your device:
-* Allow double tap enable/disable touchpad
-* Send notifications depending on your device.
+The Slimbook RGB Keyboard app enables full customization of your built-in light bar (where available) and keyboard backlight color, brightness and visual effects.
 
-Service is autoenabled on install, yo can find it as slimbook.service
+This app depends on thre packages of our repository, so, if you want to nstall it without adding our repository, you will need to install manually
 
-To see notifications, you need to launch the Slimbook Client Notifications indicator. (read below)
+Here is a [link](https://slimbook.es/en/tutoriales/aplicaciones-slimbook/501-en-slimbook-rgb-keyboard-3-0) to the app tutorial!
 
-## Usage/Examples
-Run:
+Also, if you have a Slimbook Titan or similar laptop, and you'd like to customize the light; you can find a template inside the folder src/animations, you just need to change the RGB values and save the file inside your local SlimbookRGB animation folder (path: "/usr/share/slimbookrgbkeyboard/src/animations"). 
+You will probably have to do it from your terminal as root user. 
 
-```
-slimbookindicator
-```
-And double-tap touchpad led or press performance mode keys
+> This app conflicts with clevo-xsm-wmi kernel module, and tuxedo_keyboard modules
+
 
 ### 🏠 [Homepage](https://github.com/slimbook/slimbookrgbkeyboard)
 
