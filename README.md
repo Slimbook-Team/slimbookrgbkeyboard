@@ -18,8 +18,6 @@ Here is a [link](https://slimbook.es/en/tutoriales/aplicaciones-slimbook/501-en-
 Also, if you have a Slimbook Titan or similar laptop, and you'd like to customize the light; you can find a template inside the folder src/animations, you just need to change the RGB values and save the file inside your local SlimbookRGB animation folder (path: "/usr/share/slimbookrgbkeyboard/src/animations"). 
 You will probably have to do it from your terminal as root user. 
 
-> This app conflicts with clevo-xsm-wmi kernel module, and tuxedo_keyboard modules
-
 
 ### 🏠 [Homepage](https://github.com/slimbook/slimbookrgbkeyboard)
 
@@ -44,6 +42,8 @@ Give a ⭐️ if this project helped you!
 <a href="https://www.patreon.com/slimbook">
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
+
+> This app conflicts with clevo-xsm-wmi kernel module, and tuxedo_keyboard modules
 
 ## 📝 License
 
