@@ -19,8 +19,8 @@ Also, if you have a Slimbook Titan or similar laptop, and you'd like to customiz
 You will probably have to do it from your terminal as root user. 
 
 # Install
-```bat
-   sudo add-apt-repository ppa:slimbook/slimbook
+```shell
+   sudo apt-add-repository ppa:slimbook/slimbook
    sudo apt install slimbookrgbkeyboard
 ```
 
