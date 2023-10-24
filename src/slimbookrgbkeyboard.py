@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import slimbook
+import slimbook.info
+
 import gi
 import utils
 import os, subprocess
@@ -92,17 +95,26 @@ class SlimbookRGBKeyboard(Gtk.Window):
         icon.set_halign(Gtk.Align.CENTER)
 
         win_grid.attach(icon, 5, 1, 2, 5)
-
-        # If module clevo_platform
-        if subprocess.getstatusoutput("cat /usr/share/slimbookrgbkeyboard/ite8291r3_driver.txt")[0]==0:
+        
+        self.model = slimbook.info.get_model()
+        print("Slimbook model:{0:02x}".format(self.model))
+        
+        if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
+            print("Slimbook TITAN detected")
             import ite8291r3_ctl
             win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
             self.check_autostart()
-
-        else:
+        
+        if (self.model & slimbook.info.SLB_MODEL_HERO) > 0:
+            print("Slimbook HERO detected")
+        
+        if (self.model & slimbook.info.SLB_MODEL_ESSENTIAL) > 0:
+            print("Slimbook Essential detected")
             import clevo_platform
             win_grid.attach(clevo_platform.Grid(), 0, 1, 5, 5)
         
+        if (self.model & slimbook.info.SLB_MODEL_PROX) > 0:
+            print("Slimbook ProX detected")
 
     # Info
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
