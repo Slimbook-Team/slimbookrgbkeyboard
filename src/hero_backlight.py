@@ -28,13 +28,9 @@ class Grid(Gtk.Grid):
         self.backlight_red = 0
         self.backlight_green = 0
         self.backlight_blue = 0
+        self.brightness = 0
         
         self.read_backlight()
-        
-        print(self.backlight_red)
-        print(self.backlight_green)
-        print(self.backlight_blue)
-        print(self.get_average_rgb())
         
         self.switch1 = Gtk.Switch()
         self.switch1.set_halign(Gtk.Align.END)
@@ -43,14 +39,13 @@ class Grid(Gtk.Grid):
         self.scale = Gtk.Scale.new_with_range(
             orientation=Gtk.Orientation.HORIZONTAL,
             min=0,
-            max=HERO_MAX_BACKLIGHT,
+            max=100,
             step=1
         )
         self.scale.connect("button-release-event", self.on_brightness_change)
-        self.scale.set_sensitive(
-            False) if not self.switch1.get_active() else print("Scale active")
+        self.scale.set_sensitive(self.switch1.get_active())
 
-        self.scale.set_value(self.get_average_rgb())
+        self.scale.set_value(self.brightness*100)
         self.switch1.connect("state-set", self.on_switch_change)
         
         label1 = Gtk.Label(label=_("Light switch"))
@@ -96,7 +91,10 @@ class Grid(Gtk.Grid):
         colors_lbl = Gtk.Label(label='Colors')
         colors_lbl.set_name('labelw')
         colors_lbl.set_halign(Gtk.Align.START)
-
+        
+        
+        self.sample = Gtk.DrawingArea()
+        self.sample.connect('draw', self.on_draw)
         self.set_halign(Gtk.Align.CENTER)
         self.attach(label1, 0, 0, 1, 1)
         self.attach(self.switch1, 3, 0, 1, 1)
@@ -105,37 +103,67 @@ class Grid(Gtk.Grid):
         self.attach(colors_lbl, 0, 4, 4, 1)
         self.attach(btn_box, 0, 6, 4, 1)
 
+        self.attach(self.sample, 0, 7, 4, 1)
+
         self.show_all()
 
+    def on_draw(self, widget, ctx):
+        print("redraw")
+        br = self.brightness
+        r = (self.backlight_red * br) / HERO_MAX_BACKLIGHT
+        g = (self.backlight_green * br) / HERO_MAX_BACKLIGHT
+        b = (self.backlight_blue * br) / HERO_MAX_BACKLIGHT
+        ctx.set_source_rgba (1, r,g,b)
+        ctx.fill()
+
     def on_switch_change(self, widget, state):
-        print("state:",state)
         self.scale.set_sensitive(state)
         
+        if (not state):
+            self.backlight_red = 0
+            self.backlight_green = 0
+            self.backlight_blue = 0
+            
+            self.write_backlight()
+        else:
+            self.backlight_red = HERO_MAX_BACKLIGHT
+            self.backlight_green = HERO_MAX_BACKLIGHT
+            self.backlight_blue = HERO_MAX_BACKLIGHT
+            
+            self.write_backlight()
+        
     
-    def on_brightness_change(self, widget, value):
-        print("brightness:",widget.get_value())
+    def on_brightness_change(self, widget, value):        
+        self.brightness = self.scale.get_value()/100.0
+        self.write_backlight()
     
     def on_color_change(self,widget, value):
-        print("color:",value)
         r,g,b=value
         
         self.backlight_red = HERO_MAX_BACKLIGHT * r
         self.backlight_green = HERO_MAX_BACKLIGHT * g
         self.backlight_blue = HERO_MAX_BACKLIGHT * b
-    
-        print(self.get_reference_brightness())
-        self.scale.set_value(self.get_reference_brightness())
+        
+        self.sample.queue_draw()
+        self.write_backlight()
     
     def read_backlight(self):
         output = subprocess.getoutput('heroctl get-kbd-backlight')
-        print(output)
         value = int(output,16)
         
         self.backlight_red = (value & 0xff0000) >> 16
         self.backlight_green = (value & 0x00ff00) >> 8
         self.backlight_blue = value & 0x0000ff
+        
+        self.brightness = self.get_max_brightness()/HERO_MAX_BACKLIGHT
     
-    def write_backlight(self,value):
+    def write_backlight(self):
+        br = self.brightness
+        r = int(self.backlight_red * br)
+        g = int(self.backlight_green * br)
+        b = int(self.backlight_blue * br)
+        
+        value = (r<<16) | (g<<8) | b
         subprocess.getoutput('heroctl set-kbd-backlight {0:06x}'.format(value))
     
     def get_attribute(self,name):
@@ -164,12 +192,9 @@ class Grid(Gtk.Grid):
     def get_average_rgb(self):
         return (self.backlight_red + self.backlight_green + self.backlight_blue) / 3.0
 
-    def get_reference_brightness(self):
+    def get_max_brightness(self):
         top = max(self.backlight_red,self.backlight_green)
         top = max(top,self.backlight_blue)
         
-        if top==0.0:
-            return 0.0
-            
         return top
 
