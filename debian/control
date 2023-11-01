@@ -16,6 +16,7 @@ Depends: ${misc:Depends}, ${python:Depends},
     libcurl4,
     slimbook-keyboard-dkms,
     python3-ite8291r3-ctl,
-    slimbook-qc71-dkms
+    slimbook-qc71-dkms,
+    python3-slimbook
 Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
  Description: Slimbook RGB, gestiona el color y brillo de tu teclado.

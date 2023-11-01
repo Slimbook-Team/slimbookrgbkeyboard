@@ -1,3 +1,10 @@
+slimbookrgbkeyboard (0.4.0) ; urgency=medium
+
+  * Added Hero support
+  * Fixed false negative duplicated start-up (code just been removed)
+
+ -- slimbook <dev@slimbook.es>  Wed, 01 Nov 2023 18:39:54 +0100
+
 slimbookrgbkeyboard (0.3.7beta) focal; urgency=medium
 
   * Code separated in classes
