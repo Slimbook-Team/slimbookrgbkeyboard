@@ -1,4 +1,4 @@
-slimbookrgbkeyboard (0.4.0) ; urgency=medium
+slimbookrgbkeyboard (0.4.0) jammy; urgency=medium
 
   * Added Hero support
   * Fixed false negative duplicated start-up (code just been removed)
