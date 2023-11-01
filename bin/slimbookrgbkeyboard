@@ -7,28 +7,16 @@ import subprocess
 
 from pathlib import Path
 
-
 os.environ['NO_AT_BRIDGE'] = '1'
 if str(Path(__file__).absolute()).startswith('/usr'):
     srcpath = '/usr/share/slimbookrgbkeyboard/src'
-    print(srcpath)
 else:
     srcpath = str(Path(__file__).absolute().parents[1] / 'src')
-    print(srcpath)
 
 sys.path.insert(1, srcpath)
 
 if __name__ == "__main__":
-    pgrep = subprocess.getoutput("pgrep slimbookrgbkeyboard")
-    numProcRunning = pgrep.split('\n')
-
-    if len(numProcRunning) > 1:
-        print('Slimbook AMD it is in execution')
-    else:
-        try:
-            import slimbookrgbkeyboard
-            slimbookrgbkeyboard.main()
-        except KeyboardInterrupt as exception:
-            print(exception)
-        #os.system('python3 /usr/share/slimbookrgbkeyboard/src/slimbookrgbkeyboard.py')
-exit(0)
+    import slimbookrgbkeyboard
+    #TODO: check multiple running instances
+    slimbookrgbkeyboard.main()
+    exit(0)

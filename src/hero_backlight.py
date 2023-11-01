@@ -95,6 +95,8 @@ class Grid(Gtk.Grid):
         
         self.sample = Gtk.DrawingArea()
         self.sample.connect('draw', self.on_draw)
+        self.sample.set_size_request(-1,32)
+        
         self.set_halign(Gtk.Align.CENTER)
         self.attach(label1, 0, 0, 1, 1)
         self.attach(self.switch1, 3, 0, 1, 1)
@@ -103,17 +105,23 @@ class Grid(Gtk.Grid):
         self.attach(colors_lbl, 0, 4, 4, 1)
         self.attach(btn_box, 0, 6, 4, 1)
 
-        self.attach(self.sample, 0, 7, 4, 1)
+        self.set_row_spacing(4)
+        self.attach(self.sample, 0, 7, 4, 2)
 
         self.show_all()
 
     def on_draw(self, widget, ctx):
-        print("redraw")
+
         br = self.brightness
         r = (self.backlight_red * br) / HERO_MAX_BACKLIGHT
         g = (self.backlight_green * br) / HERO_MAX_BACKLIGHT
         b = (self.backlight_blue * br) / HERO_MAX_BACKLIGHT
-        ctx.set_source_rgba (1, r,g,b)
+        
+        w = widget.get_allocated_width()
+        h = widget.get_allocated_height()
+        
+        ctx.set_source_rgba (r,g,b,1)
+        ctx.rectangle(0,0,w,h)
         ctx.fill()
 
     def on_switch_change(self, widget, state):
@@ -132,9 +140,11 @@ class Grid(Gtk.Grid):
             
             self.write_backlight()
         
+        self.sample.queue_draw()
     
-    def on_brightness_change(self, widget, value):        
+    def on_brightness_change(self, widget, value):
         self.brightness = self.scale.get_value()/100.0
+        self.sample.queue_draw()
         self.write_backlight()
     
     def on_color_change(self,widget, value):
@@ -148,7 +158,7 @@ class Grid(Gtk.Grid):
         self.write_backlight()
     
     def read_backlight(self):
-        output = subprocess.getoutput('heroctl get-kbd-backlight')
+        output = subprocess.getoutput('slimbookctl get-kbd-backlight')
         value = int(output,16)
         
         self.backlight_red = (value & 0xff0000) >> 16
@@ -164,7 +174,7 @@ class Grid(Gtk.Grid):
         b = int(self.backlight_blue * br)
         
         value = (r<<16) | (g<<8) | b
-        subprocess.getoutput('heroctl set-kbd-backlight {0:06x}'.format(value))
+        subprocess.getoutput('slimbookctl set-kbd-backlight {0:06x}'.format(value))
     
     def get_attribute(self,name):
         f = open(MODULEDIR + name,"r")

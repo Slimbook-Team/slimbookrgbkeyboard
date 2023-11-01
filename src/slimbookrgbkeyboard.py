@@ -97,7 +97,6 @@ class SlimbookRGBKeyboard(Gtk.Window):
         win_grid.attach(icon, 5, 1, 2, 5)
         
         self.model = slimbook.info.get_model()
-        print("Slimbook model:{0:02x}".format(self.model))
         
         if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
             print("Slimbook TITAN detected")
@@ -115,8 +114,7 @@ class SlimbookRGBKeyboard(Gtk.Window):
         
         if (self.model & slimbook.info.SLB_MODEL_PROX) > 0:
             print("Slimbook ProX detected")
-            import hero_backlight
-            win_grid.attach(hero_backlight.Grid(), 0, 1, 5, 5)
+            print("No backlight support")
 
     # Info
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
