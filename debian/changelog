@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.4.1) jammy; urgency=medium
+
+  * Fixed missing lines list in merge process making Hero unusable
+
+ -- slimbook <dev@slimbook.es>  Fri, 03 Nov 2023 17:26:14 +0100
+
 slimbookrgbkeyboard (0.4.0) jammy; urgency=medium
 
   * Added Hero support
