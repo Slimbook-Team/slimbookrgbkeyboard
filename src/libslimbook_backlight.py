@@ -1,4 +1,3 @@
-import slimbook.info
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
 from os.path import expanduser
@@ -7,12 +6,9 @@ import gi
 import utils
 import os
 import subprocess
-import re
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
-
-HERO_MAX_BACKLIGHT = 0xc8
 
 _ = utils.load_translation('slimbookrgb')
 
@@ -109,9 +105,9 @@ class Grid(Gtk.Grid):
     def on_draw(self, widget, ctx):
 
         br = self.brightness
-        r = (self.backlight_red * br) / HERO_MAX_BACKLIGHT
-        g = (self.backlight_green * br) / HERO_MAX_BACKLIGHT
-        b = (self.backlight_blue * br) / HERO_MAX_BACKLIGHT
+        r = (self.backlight_red * br) / 0xff
+        g = (self.backlight_green * br) / 0xff
+        b = (self.backlight_blue * br) / 0xff
         
         w = widget.get_allocated_width()
         h = widget.get_allocated_height()
@@ -130,9 +126,9 @@ class Grid(Gtk.Grid):
             
             self.write_backlight()
         else:
-            self.backlight_red = HERO_MAX_BACKLIGHT
-            self.backlight_green = HERO_MAX_BACKLIGHT
-            self.backlight_blue = HERO_MAX_BACKLIGHT
+            self.backlight_red = 0xff
+            self.backlight_green = 0xff
+            self.backlight_blue = 0xff
             
             self.write_backlight()
         
@@ -146,9 +142,9 @@ class Grid(Gtk.Grid):
     def on_color_change(self,widget, value):
         r,g,b=value
         
-        self.backlight_red = HERO_MAX_BACKLIGHT * r
-        self.backlight_green = HERO_MAX_BACKLIGHT * g
-        self.backlight_blue = HERO_MAX_BACKLIGHT * b
+        self.backlight_red = 0xff * r
+        self.backlight_green = 0xff * g
+        self.backlight_blue = 0xff * b
         
         self.sample.queue_draw()
         self.write_backlight()
@@ -161,7 +157,7 @@ class Grid(Gtk.Grid):
         self.backlight_green = (value & 0x00ff00) >> 8
         self.backlight_blue = value & 0x0000ff
         
-        self.brightness = self.get_max_brightness()/HERO_MAX_BACKLIGHT
+        self.brightness = self.get_max_brightness()/0xff
     
     def write_backlight(self):
         br = self.brightness

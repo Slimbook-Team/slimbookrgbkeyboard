@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.5.0) jammy; urgency=medium
+
+  * Elemental/Essential/Hero-S and Hero backlight is now unified into slimbookctl
+
+ -- slimbook <dev@slimbook.es>  Mon, 19 Feb 2024 17:35:23 +0100
+
 slimbookrgbkeyboard (0.4.2) jammy; urgency=medium
 
   * Updated model list
