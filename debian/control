@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 9)
 Standards-Version: 4.4.1
 Homepage: http://slimbook.es
  
-Package: slimbookrgbkeyboard
+Package: slimbook-rgb-keyboard
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends},
     python3,
@@ -14,9 +14,9 @@ Depends: ${misc:Depends}, ${python:Depends},
     python3-gi,
     git,
     libcurl4,
-    slimbook-keyboard-dkms,
     python3-ite8291r3-ctl,
-    slimbook-qc71-dkms,
     python3-slimbook
+Provides: slimbookrgbkeyboard
+Replaces: slimbookrgbkeyboard
 Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
  Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
