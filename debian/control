@@ -2,10 +2,16 @@ Source: slimbookrgbkeyboard
 Section: utils
 Priority: optional
 Maintainer: slimbook <dev@slimbook.es>
-Build-Depends: debhelper (>= 9)
-Standards-Version: 4.4.1
+Build-Depends: debhelper-compat (=13)
+Standards-Version: 4.6.0
 Homepage: http://slimbook.es
- 
+
+Package: slimbookrgbkeyboard
+Architecture: all
+Depends: slimbook-rgb-keyboard
+Description: Dummy transitional package
+ Dummy transitional package
+
 Package: slimbook-rgb-keyboard
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends},
