@@ -108,6 +108,11 @@ class SlimbookRGBKeyboard(Gtk.Window):
             print("Slimbook HERO detected")
             import libslimbook_backlight
             win_grid.attach(libslimbook_backlight.Grid(), 0, 1, 5, 5)
+
+        if (self.model == slimbook.info.SLB_MODEL_CREATIVE_15_A8_RTX):
+            print("Slimbook CREATIVE detected")
+            import libslimbook_backlight
+            win_grid.attach(libslimbook_backlight.Grid(), 0, 1, 5, 5)
         
         if (self.model & slimbook.info.SLB_MODEL_ESSENTIAL) > 0 or self.model == slimbook.info.SLB_MODEL_HERO_S_TGL_RTX or (self.model & slimbook.info.SLB_MODEL_ELEMENTAL) > 0:
             print("Slimbook Essential/Elemental/Hero-S detected")
