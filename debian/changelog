@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.5.3.0~bpo22.04.0) jammy; urgency=medium
+
+  * backport from noble
+
+ -- Slimbook <dev@slimbook.es>  Tue, 18 Feb 2025 19:11:13 +0100
+
 slimbookrgbkeyboard (0.5.3.0) noble; urgency=medium
 
   * Added support for Creative laptop
