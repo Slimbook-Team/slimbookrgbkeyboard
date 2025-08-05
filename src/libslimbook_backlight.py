@@ -80,10 +80,16 @@ class Grid(Gtk.Grid):
         magenta_btn.connect('clicked', self.on_color_change, (1,0,1))
         btn_box.pack_start(magenta_btn, True, True, 0)
 
+        custom_lbl = Gtk.Label(label=_("Custom"))
+        custom_lbl.set_halign(Gtk.Align.START)
+        custom_lbl.set_name('labelw')
+        custom_btn = Gtk.ColorButton()
+        custom_btn.set_name('custom')
+        custom_btn.connect('color-set', self.on_color_set)
+
         colors_lbl = Gtk.Label(label='Colors')
         colors_lbl.set_name('labelw')
         colors_lbl.set_halign(Gtk.Align.START)
-        
         
         self.sample = Gtk.DrawingArea()
         self.sample.connect('draw', self.on_draw)
@@ -94,8 +100,10 @@ class Grid(Gtk.Grid):
         self.attach(self.switch1, 3, 0, 1, 1)
         self.attach(label2, 0, 1, 1, 1)
         self.attach(self.scale, 2, 1, 2, 1)
-        self.attach(colors_lbl, 0, 4, 4, 1)
-        self.attach(btn_box, 0, 6, 4, 1)
+        self.attach(custom_lbl, 0, 3, 1, 1)
+        self.attach(custom_btn, 1, 3, 1, 1)
+        self.attach(colors_lbl, 0, 5, 4, 1)
+        self.attach(btn_box, 0, 6, 5, 1)
 
         self.set_row_spacing(4)
         self.attach(self.sample, 0, 7, 4, 2)
@@ -115,6 +123,16 @@ class Grid(Gtk.Grid):
         ctx.set_source_rgba (r,g,b,1)
         ctx.rectangle(0,0,w,h)
         ctx.fill()
+
+    def on_color_set(self, colorbutton):
+        color = colorbutton.get_rgba()
+
+        self.backlight_red = int(0xff * color.red)
+        self.backlight_green = int(0xff * color.green)
+        self.backlight_blue = int(0xff * color.blue)
+
+        self.sample.queue_draw()
+        self.write_backlight()
 
     def on_switch_change(self, widget, state):
         self.scale.set_sensitive(state)
