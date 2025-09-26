@@ -150,15 +150,17 @@ class Grid(Gtk.Grid):
         self.write_backlight()
     
     def read_backlight(self):
-        output = subprocess.getoutput('slimbookctl get-kbd-backlight')
-        value = int(output,16)
-        
-        self.backlight_red = (value & 0xff0000) >> 16
-        self.backlight_green = (value & 0x00ff00) >> 8
-        self.backlight_blue = value & 0x0000ff
-        
-        self.brightness = self.get_max_brightness()/0xff
     
+        output = subprocess.getoutput('slimbookctl get-kbd-backlight')
+        color = int(output,16)
+        
+        self.backlight_red = (color & 0xff0000) >> 16
+        self.backlight_green = (color & 0x00ff00) >> 8
+        self.backlight_blue = color & 0x0000ff
+        
+        output = subprocess.getoutput('slimbookctl get-kbd-brightness')
+        self.brightness = int(color,16)
+        
     def write_backlight(self):
         br = self.brightness
         r = int(self.backlight_red * br)
@@ -166,14 +168,10 @@ class Grid(Gtk.Grid):
         b = int(self.backlight_blue * br)
         
         value = (r<<16) | (g<<8) | b
+        
         subprocess.getoutput('slimbookctl set-kbd-backlight {0:06x}'.format(value))
-            
+        subprocess.getoutput('slimbookctl set-kbd-brightness {0:06x}'.format(br))
+    
     def get_average_rgb(self):
         return (self.backlight_red + self.backlight_green + self.backlight_blue) / 3.0
-
-    def get_max_brightness(self):
-        top = max(self.backlight_red,self.backlight_green)
-        top = max(top,self.backlight_blue)
-        
-        return top
 
