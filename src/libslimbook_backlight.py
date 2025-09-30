@@ -1,3 +1,4 @@
+import slimbook.kbd
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
 from os.path import expanduser
@@ -28,16 +29,18 @@ class Grid(Gtk.Grid):
         self.switch1.set_halign(Gtk.Align.END)
         self.switch1.set_active(self.get_average_rgb() > 0)
 
+        self.max_brightness = slimbook.kbd.brightness_max(0)
+        
         self.scale = Gtk.Scale.new_with_range(
-            orientation=Gtk.Orientation.HORIZONTAL,
-            min=0,
-            max=100,
-            step=1
+            orientation = Gtk.Orientation.HORIZONTAL,
+            min = 0,
+            max = self.max_brightness,
+            step = 1
         )
         self.scale.connect("button-release-event", self.on_brightness_change)
         self.scale.set_sensitive(self.switch1.get_active())
 
-        self.scale.set_value(self.brightness*100)
+        self.scale.set_value(self.brightness)
         self.switch1.connect("state-set", self.on_switch_change)
         
         label1 = Gtk.Label(label=_("Light switch"))
@@ -135,7 +138,7 @@ class Grid(Gtk.Grid):
         self.sample.queue_draw()
     
     def on_brightness_change(self, widget, value):
-        self.brightness = self.scale.get_value()/100.0
+        self.brightness = self.scale.get_value()
         self.sample.queue_draw()
         self.write_backlight()
     
