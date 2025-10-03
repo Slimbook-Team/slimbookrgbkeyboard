@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.6.0~fallsupdate0) noble; urgency=medium
+
+  * Using new led api for qc71 keyboards
+
+ -- Slimbook <dev@slimbook.es>  Fri, 03 Oct 2025 21:45:54 +0200
+
 slimbookrgbkeyboard (0.5.4.0) noble; urgency=medium
 
   * Added a custom color button, it may need some further testing
