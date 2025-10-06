@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.6.0~fallsupdate1) noble; urgency=medium
+
+  * Fixed bug reading backlight
+
+ -- Slimbook <dev@slimbook.es>  Mon, 06 Oct 2025 14:46:00 +0200
+
 slimbookrgbkeyboard (0.6.0~fallsupdate0) noble; urgency=medium
 
   * Using new led api for qc71 keyboards
