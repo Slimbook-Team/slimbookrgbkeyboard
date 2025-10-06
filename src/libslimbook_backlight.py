@@ -115,10 +115,10 @@ class Grid(Gtk.Grid):
 
     def on_draw(self, widget, ctx):
 
-        br = self.brightness
-        r = (self.backlight_red * br) / 0xff
-        g = (self.backlight_green * br) / 0xff
-        b = (self.backlight_blue * br) / 0xff
+        
+        r = (self.backlight_red) / 0xff
+        g = (self.backlight_green) / 0xff
+        b = (self.backlight_blue) / 0xff
         
         w = widget.get_allocated_width()
         h = widget.get_allocated_height()
@@ -141,15 +141,11 @@ class Grid(Gtk.Grid):
         self.scale.set_sensitive(state)
         
         if (not state):
-            self.backlight_red = 0
-            self.backlight_green = 0
-            self.backlight_blue = 0
+            self.brightness = 0
             
             self.write_backlight()
         else:
-            self.backlight_red = 0xff
-            self.backlight_green = 0xff
-            self.backlight_blue = 0xff
+            self.brightness = self.max_brightness
             
             self.write_backlight()
         
@@ -183,10 +179,10 @@ class Grid(Gtk.Grid):
         self.brightness = int(output,16)
         
     def write_backlight(self):
-        br = self.brightness
-        r = int(self.backlight_red * br)
-        g = int(self.backlight_green * br)
-        b = int(self.backlight_blue * br)
+        br = int(self.brightness)
+        r = int(self.backlight_red)
+        g = int(self.backlight_green)
+        b = int(self.backlight_blue)
         
         value = (r<<16) | (g<<8) | b
         

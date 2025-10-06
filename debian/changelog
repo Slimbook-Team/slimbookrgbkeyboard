@@ -1,3 +1,10 @@
+slimbookrgbkeyboard (0.6.0~fallsupdate2) noble; urgency=medium
+
+  * Fixed crash setting color
+  * Fixed switch, no longer changing color but brightness
+
+ -- Slimbook <dev@slimbook.es>  Mon, 06 Oct 2025 19:24:03 +0200
+
 slimbookrgbkeyboard (0.6.0~fallsupdate1) noble; urgency=medium
 
   * Fixed bug reading backlight
