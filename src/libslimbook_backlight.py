@@ -180,7 +180,7 @@ class Grid(Gtk.Grid):
         self.backlight_blue = color & 0x0000ff
         
         output = subprocess.getoutput('slimbookctl get-kbd-brightness')
-        self.brightness = int(color,16)
+        self.brightness = int(output,16)
         
     def write_backlight(self):
         br = self.brightness
