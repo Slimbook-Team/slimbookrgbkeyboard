@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.6.1) noble; urgency=medium
+
+  * Added support for Creative AI9
+
+ -- Slimbook <dev@slimbook.es>  Thu, 05 Feb 2026 19:36:33 +0100
+
 slimbookrgbkeyboard (0.6.0~fallsupdate2) noble; urgency=medium
 
   * Fixed crash setting color
