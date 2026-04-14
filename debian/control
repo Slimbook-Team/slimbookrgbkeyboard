@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: slimbook <dev@slimbook.es>
 Build-Depends: debhelper-compat (=13)
 Standards-Version: 4.6.0
-Homepage: http://slimbook.es
+Homepage: https://github.com/Slimbook-Team/slimbookrgbkeyboard/
 
 Package: slimbookrgbkeyboard
 Architecture: all
