@@ -1,16 +1,10 @@
-Source: slimbookrgbkeyboard
+Source: slimbook-rgb-keyboard
 Section: utils
 Priority: optional
 Maintainer: slimbook <dev@slimbook.es>
 Build-Depends: debhelper-compat (=13)
 Standards-Version: 4.6.0
 Homepage: https://github.com/Slimbook-Team/slimbookrgbkeyboard/
-
-Package: slimbookrgbkeyboard
-Architecture: all
-Depends: slimbook-rgb-keyboard
-Description: Dummy transitional package
- Dummy transitional package
 
 Package: slimbook-rgb-keyboard
 Architecture: all
@@ -24,5 +18,5 @@ Depends: ${misc:Depends}, ${python:Depends},
     python3-slimbook
 Provides: slimbookrgbkeyboard
 Replaces: slimbookrgbkeyboard
-Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
- Description: Slimbook RGB, gestiona el color y brillo de tu teclado.
+Description: Slimbook RGB manages color and brightness of keyboard
+ Slimbook RGB manages color and brightness of keyboard

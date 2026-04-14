@@ -1,3 +1,11 @@
+slimbook-rgb-keyboard (0.6.1~alpha0) resolute; urgency=medium
+
+  * git cleanup
+  * 26.04 release
+  * control cleanup
+
+ -- Slimbook <dev@slimbook.es>  Tue, 14 Apr 2026 23:18:23 +0200
+
 slimbookrgbkeyboard (0.6.1) noble; urgency=medium
 
   * Added support for Creative AI9
