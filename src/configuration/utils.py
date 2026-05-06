@@ -20,7 +20,7 @@ def get_user(from_file=None):
         if 'SUDO_USER' in os.environ and os.environ['SUDO_USER'] != 'root':
             user_name = os.environ['SUDO_USER']
         else:
-            user_name = subprocess.getoutput('last -wn1 | head -n 1 | cut -f 1 -d " "')
+            user_name = subprocess.getoutput('w -h | head -n 1 | cut -f 1 -d " "')
 
     return user_name
 
