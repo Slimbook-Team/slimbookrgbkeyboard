@@ -1,3 +1,9 @@
+slimbookrgbkeyboard (0.6.2) noble; urgency=medium
+
+  * PR15: Fix getting user from subprocess
+
+ -- Slimbook <dev@slimbook.es>  Fri, 08 May 2026 09:27:23 +0200
+
 slimbookrgbkeyboard (0.6.1) noble; urgency=medium
 
   * Added support for Creative AI9
