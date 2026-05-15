@@ -100,8 +100,12 @@ class SlimbookRGBKeyboard(Gtk.Window):
         
         if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
             print("Slimbook TITAN detected")
-            import ite8291r3_ctl
-            win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
+            if (os.path.exists("/usr/bin/ite8291r3-ctl")):
+                import ite8291r3_ctl
+                win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
+            else:
+                import libslimbook_backlight
+                win_grid.attach(libslimbook_backlight.Grid(), 0, 1, 5, 5)
             self.check_autostart()
         
         if (self.model == slimbook.info.SLB_MODEL_HERO_RPL_RTX):
@@ -116,8 +120,13 @@ class SlimbookRGBKeyboard(Gtk.Window):
 
         if (self.model == slimbook.info.SLB_MODEL_CREATIVE_15_AI9_RTX5):
             print("Slimbook CREATIVE AI9 RTX detected")
-            import ite8291r3_ctl
-            win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
+            if (os.path.exists("/usr/bin/ite8291r3-ctl")):
+                print("using python3-ite8291r3 backend")
+                import ite8291r3_ctl
+                win_grid.attach(ite8291r3_ctl.Grid(), 0, 1, 5, 5)
+            else:
+                import libslimbook_backlight
+                win_grid.attach(libslimbook_backlight.Grid(), 0, 1, 5, 5)
             self.check_autostart()
         
         if (self.model & slimbook.info.SLB_MODEL_ESSENTIAL) > 0 or self.model == slimbook.info.SLB_MODEL_HERO_S_TGL_RTX or (self.model & slimbook.info.SLB_MODEL_ELEMENTAL) > 0:
