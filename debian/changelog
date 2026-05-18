@@ -1,3 +1,9 @@
+slimbook-rgb-keyboard (0.7.0) resolute; urgency=medium
+
+  * No longer depends on python ite8192 package, moving to kernel driver instead, although effects are not supported yet
+
+ -- Slimbook <dev@slimbook.es>  Mon, 18 May 2026 14:58:40 +0200
+
 slimbook-rgb-keyboard (0.6.2) resolute; urgency=medium
 
   * PR15: Fix getting user from subprocess

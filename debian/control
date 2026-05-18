@@ -14,9 +14,9 @@ Depends: ${misc:Depends}, ${python:Depends},
     python3-gi,
     git,
     libcurl4,
-    python3-ite8291r3-ctl (>= 0.3+slimbook1),
     python3-slimbook
 Provides: slimbookrgbkeyboard
 Replaces: slimbookrgbkeyboard
+Suggests: python3-ite8291r3-ctl (>= 0.3+slimbook1)
 Description: Slimbook RGB manages color and brightness of keyboard
  Slimbook RGB manages color and brightness of keyboard
