@@ -1,3 +1,9 @@
+slimbook-rgb-keyboard (0.7.1) resolute; urgency=medium
+
+  * Avoid crashing if ite8291r3-ctl does not exist
+
+ -- Slimbook <dev@slimbook.es>  Thu, 11 Jun 2026 08:30:48 +0200
+
 slimbook-rgb-keyboard (0.7.0) resolute; urgency=medium
 
   * No longer depends on python ite8192 package, moving to kernel driver instead, although effects are not supported yet
