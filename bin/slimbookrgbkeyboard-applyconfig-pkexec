@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 /usr/share/slimbookrgbkeyboard/src/applyconfig.py $@
+which ite8291r3-ctl && python3 /usr/share/slimbookrgbkeyboard/src/applyconfig.py $@
