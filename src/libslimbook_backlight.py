@@ -1,3 +1,5 @@
+import slimbook
+import slimbook.info
 import slimbook.kbd
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
@@ -24,6 +26,12 @@ class Grid(Gtk.Grid):
         self.brightness = 0
         
         self.read_backlight()
+
+        self.lb_color = 0
+        self.lb_brightness = 0
+        self.lb_rainbow = 0
+
+        self.read_lightbar()
         
         self.switch1 = Gtk.Switch()
         self.switch1.set_halign(Gtk.Align.END)
@@ -31,6 +39,18 @@ class Grid(Gtk.Grid):
 
         self.max_brightness = slimbook.kbd.brightness_max(0)
         
+        stack = Gtk.Stack()
+        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        stack.set_transition_duration(500)
+
+        stack_switcher = Gtk.StackSwitcher(valign=Gtk.Align.START)
+        stack_switcher.set_stack(stack)
+
+        kb_grid = Gtk.Grid(column_homogeneous = True,
+                            row_homogeneous = False,
+                            column_spacing = 10,
+                            row_spacing = 20)
+
         self.scale = Gtk.Scale.new_with_range(
             orientation = Gtk.Orientation.HORIZONTAL,
             min = 0,
@@ -98,18 +118,30 @@ class Grid(Gtk.Grid):
         self.sample.connect('draw', self.on_draw)
         self.sample.set_size_request(-1,32)
         
-        self.set_halign(Gtk.Align.CENTER)
-        self.attach(label1, 0, 0, 1, 1)
-        self.attach(self.switch1, 3, 0, 1, 1)
-        self.attach(label2, 0, 1, 1, 1)
-        self.attach(self.scale, 2, 1, 2, 1)
-        self.attach(custom_lbl, 0, 3, 1, 1)
-        self.attach(custom_btn, 1, 3, 1, 1)
-        self.attach(colors_lbl, 0, 5, 4, 1)
-        self.attach(btn_box, 0, 6, 5, 1)
+        kb_grid.set_halign(Gtk.Align.CENTER)
+        kb_grid.attach(label1, 0, 0, 1, 1)
+        kb_grid.attach(self.switch1, 3, 0, 1, 1)
+        kb_grid.attach(label2, 0, 1, 1, 1)
+        kb_grid.attach(self.scale, 2, 1, 2, 1)
+        kb_grid.attach(custom_lbl, 0, 3, 1, 1)
+        kb_grid.attach(custom_btn, 1, 3, 1, 1)
+        kb_grid.attach(colors_lbl, 0, 5, 4, 1)
+        kb_grid.attach(btn_box, 0, 6, 5, 1)
 
-        self.set_row_spacing(4)
-        self.attach(self.sample, 0, 7, 4, 2)
+        kb_grid.set_row_spacing(4)
+        kb_grid.attach(self.sample, 0, 7, 4, 2)
+
+        stack.add_titled(self.load_kb(), "grid", _("Keyboard"))
+
+        self.model = slimbook.info.get_model()
+
+        # Only Titans have the lightbar
+        if self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
+            pass
+
+
+        self.attach(stack_switcher, 0,0,5,1)
+        self.attach(stack,0,2,5,4)
 
         self.show_all()
 
@@ -191,4 +223,17 @@ class Grid(Gtk.Grid):
     
     def get_average_rgb(self):
         return (self.backlight_red + self.backlight_green + self.backlight_blue) / 3.0
+
+
+    def read_lightbar(self):
+        output = subprocess.getoutput('slimbookctl get-lightbar-color')
+        self.lb_color = int(output,10)
+
+        output = subprocess.getoutput('slimbookctl get-lightbar-brightness')
+        self.lb_brightness = int(output,10)
+
+        output = subprocess.getoutput('slimbookctl get-lightbar-rainbow')
+        self.lb_rainbow = int(output,10)
+
+
 
