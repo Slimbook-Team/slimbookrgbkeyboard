@@ -18,6 +18,7 @@ _ = utils.load_translation('slimbookrgb')
 class Grid(Gtk.Grid):
 
     def __init__(self, *args, **kwargs):
+        
         super(Grid, self).__init__(*args, **kwargs)
         
         self.backlight_red = 0
@@ -131,14 +132,33 @@ class Grid(Gtk.Grid):
         kb_grid.set_row_spacing(4)
         kb_grid.attach(self.sample, 0, 7, 4, 2)
 
-        stack.add_titled(self.load_kb(), "grid", _("Keyboard"))
+        stack.add_titled(kb_grid, "grid_kb", _("Keyboard"))
 
         self.model = slimbook.info.get_model()
 
         # Only Titans have the lightbar
-        if self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
-            pass
-
+        if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
+            lb_grid = Gtk.Grid(column_homogeneous = True,
+                            row_homogeneous = False,
+                            column_spacing = 10,
+                            row_spacing = 20)
+            
+            lb_switch = Gtk.Switch()
+            lb_switch.set_active(self.lb_brightness)
+            lb_switch.set_halign(Gtk.Align.END)
+            lb_switch.connect("state-set", self.lb_switch_brightness)
+            
+            lb_grid.attach(lb_switch, 1, 0, 2, 1)
+            
+            lb_switch = Gtk.Switch()
+            lb_switch.set_active(self.lb_rainbow)
+            lb_switch.set_halign(Gtk.Align.END)
+            lb_switch.connect("state-set", self.lb_switch_rainbow)
+            
+            lb_grid.attach(lb_switch, 1, 1, 2, 1)
+            
+            stack.add_titled(lb_grid, "grid_lb", _("Lightbar"))
+            
 
         self.attach(stack_switcher, 0,0,5,1)
         self.attach(stack,0,2,5,4)
@@ -236,4 +256,10 @@ class Grid(Gtk.Grid):
         self.lb_rainbow = int(output,10)
 
 
-
+    def lb_switch_brightness(self, switch, state):
+        print(int(state))
+        subprocess.getoutput('slimbookctl set-lightbar-brightness {0}'.format(int(state)))
+        
+    def lb_switch_rainbow(self, switch, state):
+        print(int(state))
+        subprocess.getoutput('slimbookctl set-lightbar-rainbow {0}'.format(int(state)))
