@@ -1,3 +1,10 @@
+slimbookrgbkeyboard (0.8.0) noble; urgency=medium
+
+  * Lightbar support is back
+  * Avoid crashing on if hid-ite8291 color is unset
+
+ -- Slimbook <dev@slimbook.es>  Fri, 23 Oct 2026 10:14:02 +0200
+
 slimbookrgbkeyboard (0.7.1) noble; urgency=medium
 
   * Avoid crashing if ite8291r3-ctl is not installed
