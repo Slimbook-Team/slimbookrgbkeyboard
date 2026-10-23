@@ -1,3 +1,5 @@
+import slimbook
+import slimbook.info
 import slimbook.kbd
 
 from gi.repository import Gdk, Gtk, GdkPixbuf
@@ -16,6 +18,7 @@ _ = utils.load_translation('slimbookrgb')
 class Grid(Gtk.Grid):
 
     def __init__(self, *args, **kwargs):
+        
         super(Grid, self).__init__(*args, **kwargs)
         
         self.backlight_red = 0
@@ -24,6 +27,12 @@ class Grid(Gtk.Grid):
         self.brightness = 0
         
         self.read_backlight()
+
+        self.lb_color = 0
+        self.lb_brightness = 0
+        self.lb_rainbow = 0
+
+        self.read_lightbar()
         
         self.switch1 = Gtk.Switch()
         self.switch1.set_halign(Gtk.Align.END)
@@ -31,6 +40,18 @@ class Grid(Gtk.Grid):
 
         self.max_brightness = slimbook.kbd.brightness_max(0)
         
+        stack = Gtk.Stack()
+        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        stack.set_transition_duration(500)
+
+        stack_switcher = Gtk.StackSwitcher(valign=Gtk.Align.START)
+        stack_switcher.set_stack(stack)
+
+        kb_grid = Gtk.Grid(column_homogeneous = True,
+                            row_homogeneous = False,
+                            column_spacing = 10,
+                            row_spacing = 20)
+
         self.scale = Gtk.Scale.new_with_range(
             orientation = Gtk.Orientation.HORIZONTAL,
             min = 0,
@@ -51,7 +72,8 @@ class Grid(Gtk.Grid):
         label2.set_halign(Gtk.Align.START)
         label2.set_name('labelw')
 
-        btn_box = Gtk.HBox(spacing=30)
+        btn_box = Gtk.HBox(spacing=10)
+        btn_box.set_halign(Gtk.Align.START)
 
         red_btn = Gtk.Button()
         red_btn.set_name('red')
@@ -87,6 +109,7 @@ class Grid(Gtk.Grid):
         custom_lbl.set_halign(Gtk.Align.START)
         custom_lbl.set_name('labelw')
         custom_btn = Gtk.ColorButton()
+        custom_btn.set_halign(Gtk.Align.END)
         custom_btn.set_name('custom')
         custom_btn.connect('color-set', self.on_color_set)
 
@@ -98,18 +121,107 @@ class Grid(Gtk.Grid):
         self.sample.connect('draw', self.on_draw)
         self.sample.set_size_request(-1,32)
         
-        self.set_halign(Gtk.Align.CENTER)
-        self.attach(label1, 0, 0, 1, 1)
-        self.attach(self.switch1, 3, 0, 1, 1)
-        self.attach(label2, 0, 1, 1, 1)
-        self.attach(self.scale, 2, 1, 2, 1)
-        self.attach(custom_lbl, 0, 3, 1, 1)
-        self.attach(custom_btn, 1, 3, 1, 1)
-        self.attach(colors_lbl, 0, 5, 4, 1)
-        self.attach(btn_box, 0, 6, 5, 1)
+        kb_grid.set_halign(Gtk.Align.CENTER)
+        kb_grid.attach(label1, 0, 0, 1, 1)
+        kb_grid.attach(self.switch1, 3, 0, 1, 1)
+        kb_grid.attach(label2, 0, 1, 1, 1)
+        kb_grid.attach(self.scale, 2, 1, 2, 1)
+        kb_grid.attach(custom_lbl, 0, 3, 1, 1)
+        kb_grid.attach(custom_btn, 1, 3, 1, 1)
+        kb_grid.attach(colors_lbl, 0, 5, 4, 1)
+        kb_grid.attach(btn_box, 0, 6, 5, 1)
 
-        self.set_row_spacing(4)
-        self.attach(self.sample, 0, 7, 4, 2)
+        kb_grid.set_row_spacing(4)
+        kb_grid.attach(self.sample, 0, 7, 4, 2)
+
+        stack.add_titled(kb_grid, "grid_kb", _("Keyboard"))
+
+        self.model = slimbook.info.get_model()
+
+        # Only Titans have the lightbar
+        if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
+            lb_grid = Gtk.Grid(column_homogeneous = True,
+                            row_homogeneous = False,
+                            column_spacing = 10,
+                            row_spacing = 20)
+            
+            label = Gtk.Label(label="Light switch")
+            label.set_halign(Gtk.Align.START)
+            
+            lb_switch = Gtk.Switch()
+            lb_switch.set_active(self.lb_brightness)
+            lb_switch.set_halign(Gtk.Align.END)
+            lb_switch.connect("state-set", self.lb_switch_brightness)
+
+            lb_grid.attach(label, 0, 0, 2, 1)            
+            lb_grid.attach(lb_switch, 1, 0, 2, 1)
+            
+            label = Gtk.Label(label="Rainbow mode")
+            label.set_halign(Gtk.Align.START)
+            
+            lb_switch = Gtk.Switch()
+            lb_switch.set_active(self.lb_rainbow)
+            lb_switch.set_halign(Gtk.Align.END)
+            lb_switch.connect("state-set", self.lb_switch_rainbow)
+            
+            lb_grid.attach(label, 0, 1, 2, 1)
+            lb_grid.attach(lb_switch, 1, 1, 2, 1)
+            
+            stack.add_titled(lb_grid, "grid_lb", _("Lightbar"))
+            
+            btn_box= Gtk.HBox(spacing=10)
+            btn_box.set_halign(Gtk.Align.START)
+            
+            btn= Gtk.Button()
+            btn.set_name('white')
+            btn.connect('clicked', self.lb_color_change, 999)
+            btn_box.pack_start(btn, True, True, 0)
+
+            btn= Gtk.Button()
+            btn.set_name('aqua')
+            btn.connect('clicked', self.lb_color_change, 799)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('teal')
+            btn.connect('clicked', self.lb_color_change, 688)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('blue')
+            btn.connect('clicked', self.lb_color_change, 9)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('purple')
+            btn.connect('clicked', self.lb_color_change, 909)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('red')
+            btn.connect('clicked', self.lb_color_change, 900)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('orange')
+            btn.connect('clicked', self.lb_color_change, 940)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('yellow')
+            btn.connect('clicked', self.lb_color_change, 990)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            btn= Gtk.Button()
+            btn.set_name('green')
+            btn.connect('clicked', self.lb_color_change, 90)
+            btn_box.pack_start(btn, True, True, 0)
+            
+            lb_grid.attach(btn_box, 0, 6, 5, 1)
+            
+
+        self.attach(stack_switcher, 0,0,5,1)
+        self.attach(stack,0,2,5,4)
 
         self.show_all()
 
@@ -167,16 +279,19 @@ class Grid(Gtk.Grid):
         self.write_backlight()
     
     def read_backlight(self):
-    
-        output = subprocess.getoutput('slimbookctl get-kbd-backlight')
-        color = int(output,16)
-        
-        self.backlight_red = (color & 0xff0000) >> 16
-        self.backlight_green = (color & 0x00ff00) >> 8
-        self.backlight_blue = color & 0x0000ff
-        
-        output = subprocess.getoutput('slimbookctl get-kbd-brightness')
-        self.brightness = int(output,16)
+        try:
+            output = subprocess.getoutput('slimbookctl get-kbd-backlight')
+            color = int(output,16)
+            
+            self.backlight_red = (color & 0xff0000) >> 16
+            self.backlight_green = (color & 0x00ff00) >> 8
+            self.backlight_blue = color & 0x0000ff
+            
+            output = subprocess.getoutput('slimbookctl get-kbd-brightness')
+            self.brightness = int(output,16)
+        except:
+            self.brightness = 0
+            
         
     def write_backlight(self):
         br = int(self.brightness)
@@ -192,3 +307,23 @@ class Grid(Gtk.Grid):
     def get_average_rgb(self):
         return (self.backlight_red + self.backlight_green + self.backlight_blue) / 3.0
 
+
+    def read_lightbar(self):
+        output = subprocess.getoutput('slimbookctl get-lightbar-color')
+        self.lb_color = int(output,10)
+
+        output = subprocess.getoutput('slimbookctl get-lightbar-brightness')
+        self.lb_brightness = int(output,10)
+
+        output = subprocess.getoutput('slimbookctl get-lightbar-rainbow')
+        self.lb_rainbow = int(output,10)
+
+
+    def lb_switch_brightness(self, switch, state):
+        subprocess.getoutput('slimbookctl set-lightbar-brightness {0}'.format(int(state)))
+        
+    def lb_switch_rainbow(self, switch, state):
+        subprocess.getoutput('slimbookctl set-lightbar-rainbow {0}'.format(int(state)))
+    
+    def lb_color_change(self, widget, color):
+        subprocess.getoutput('slimbookctl set-lightbar-color {0}'.format(color))
