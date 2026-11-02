@@ -31,8 +31,6 @@ class Grid(Gtk.Grid):
         self.lb_color = 0
         self.lb_brightness = 0
         self.lb_rainbow = 0
-
-        self.read_lightbar()
         
         self.switch1 = Gtk.Switch()
         self.switch1.set_halign(Gtk.Align.END)
@@ -140,6 +138,8 @@ class Grid(Gtk.Grid):
 
         # Only Titans have the lightbar
         if (self.model & slimbook.info.SLB_MODEL_TITAN) > 0:
+            self.read_lightbar()
+
             lb_grid = Gtk.Grid(column_homogeneous = True,
                             row_homogeneous = False,
                             column_spacing = 10,
