@@ -1,3 +1,9 @@
+slimbook-rgb-keyboard (0.8.1) resolute; urgency=medium
+
+  * Only reading lightbar on titan models
+
+ -- Slimbook <dev@slimbook.es>  Mon, 02 Nov 2026 15:48:12 +0100
+
 slimbook-rgb-keyboard (0.8.0) resolute; urgency=medium
 
   * Lightbar support is back
